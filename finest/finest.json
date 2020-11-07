@@ -1,0 +1,61 @@
+{
+	"rules": {
+		"complexity": [
+			"warn",
+			10
+		],
+		"func-names": "warn",
+		"max-lines": [
+			"warn",
+			500
+		],
+		"max-lines-per-function": [
+			"warn",
+			{
+				"max": 45,
+				"skipComments": true
+			}
+		],
+		"max-nested-callbacks": [
+			"warn",
+			6
+		],
+		"max-params": [
+			"warn",
+			3
+		],
+		"max-statements-per-line": [
+			"warn",
+			{
+				"max": 1
+			}
+		],
+		"no-await-in-loop": "warn",
+		"no-console": [
+			"off",
+			{
+				"allow": [
+					"info",
+					"warn",
+					"error"
+				]
+			}
+		],
+		"no-process-env": "off",
+		"no-promise-executor-return": "error",
+		"node/no-unpublished-bin": "warn",
+		"node/no-unpublished-import": "warn",
+		"node/no-unpublished-require": "warn",
+		"node/prefer-promises/dns": "warn",
+		"node/prefer-promises/fs": "warn",
+		"promise/prefer-await-to-callbacks": "warn",
+    "promise/prefer-await-to-then": "warn",
+		"prefer-arrow-callback": [
+			"warn",
+			{
+				"allowNamedFunctions": false,
+				"allowUnboundThis": true
+			}
+    ]
+	}
+}
