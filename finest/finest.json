@@ -56,6 +56,7 @@
 				"allowNamedFunctions": false,
 				"allowUnboundThis": true
 			}
-    ]
+    ],
+    "node/no-unsupported-features/es-syntax": "warn"
 	}
 }

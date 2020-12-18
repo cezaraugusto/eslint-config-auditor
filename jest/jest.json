@@ -3,9 +3,6 @@
 		"plugin:jest/recommended",
 		"plugin:jest/style"
 	],
-	"files": [
-		"*.{test,spec}.{ts,tsx,js,jsx}"
-  ],
 	"plugins": [
 		"jest"
   ],
