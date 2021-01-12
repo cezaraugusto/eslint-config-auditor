@@ -57,6 +57,29 @@
 				"allowUnboundThis": true
 			}
     ],
-    "node/no-unsupported-features/es-syntax": "warn"
-	}
+    "node/no-unsupported-features/es-syntax": "warn",
+    "node/no-missing-import": "warn",
+    "import/no-relative-parent-imports": "warn",
+    "node/no-unsupported-features/node-builtins": "warn",
+    "no-duplicate-imports": "warn",
+    "import/exports-last": ["error", "never"],
+    "node/no-callback-literal": "error",
+    "jsx-a11y/aria-role": "error",
+    "jsx-a11y/alt-text": "error",
+		"array-callback-return": [
+			"error",
+			{
+				"allowImplicit": false,
+				"checkForEach": false
+			}
+		]
+  },
+  "object-shorthand": [
+    "error",
+    "always",
+    {
+      "avoidQuotes": true,
+      "ignoreConstructors": false
+    }
+  ]
 }
