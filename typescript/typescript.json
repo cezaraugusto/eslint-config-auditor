@@ -82,6 +82,7 @@
 					"error",
 					{
 						"format": [
+              "PascalCase",
 							"camelCase"
 						],
 						"leadingUnderscore": "allow",
@@ -144,7 +145,6 @@
 					}
 				],
 				"@typescript-eslint/no-non-null-asserted-optional-chain": "error",
-				"@typescript-eslint/no-non-null-assertion": "warn",
 				"@typescript-eslint/no-require-imports": "warn",
 				"@typescript-eslint/no-shadow": [
 					"error",
@@ -182,14 +182,6 @@
 				"@typescript-eslint/no-useless-constructor": "error",
 				"@typescript-eslint/prefer-as-const": "error",
 				"@typescript-eslint/prefer-enum-initializers": "warn",
-				"@typescript-eslint/prefer-nullish-coalescing": [
-					"warn",
-					{
-						"forceSuggestionFixer": false,
-						"ignoreConditionalTests": true,
-						"ignoreMixedLogicalExpressions": true
-					}
-				],
 				"@typescript-eslint/prefer-optional-chain": "warn",
 				"@typescript-eslint/require-array-sort-compare": "error",
 				"@typescript-eslint/restrict-plus-operands": [
@@ -205,7 +197,9 @@
 				"no-shadow": "off",
 				"no-unused-vars": "off",
 				"no-use-before-define": "off",
-				"no-useless-constructor": "off"
+        "no-useless-constructor": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "require-await": "off"
 			}
 		}
 	]
