@@ -199,7 +199,32 @@
 				"no-use-before-define": "off",
         "no-useless-constructor": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
-        "require-await": "off"
+        "@typescript-eslint/consistent-type-assertions": "error",
+        "@typescript-eslint/dot-notation": "error",
+        "@typescript-eslint/no-misused-new": "error",
+        "@typescript-eslint/no-namespace": "error",
+        "@typescript-eslint/no-unused-expressions": "error",
+        "@typescript-eslint/prefer-function-type": "error",
+        "@typescript-eslint/prefer-namespace-keyword": "error",
+        "@typescript-eslint/quotes": [
+          "error",
+          "single"
+        ],
+        "@typescript-eslint/triple-slash-reference": [
+          "error",
+          {
+            "path": "always",
+            "types": "prefer-import",
+            "lib": "always"
+          }
+        ],
+        "@typescript-eslint/no-empty-interface": "error",
+        "@typescript-eslint/no-inferrable-types": [
+          "error",
+          {
+            "ignoreParameters": true
+          }
+        ]
 			}
 		}
 	]
