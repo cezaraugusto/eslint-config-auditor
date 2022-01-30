@@ -13,7 +13,7 @@
 		"react",
 		"jsx-a11y",
 		"react-hooks"
-  ],
+	],
 	"settings": {
 		"linkComponents": [
 			{
@@ -27,6 +27,7 @@
 	},
 	"rules": {
 		"jsx-a11y/accessible-emoji": "error",
+		"jsx-a11y/alt-text": "error",
 		"jsx-a11y/anchor-has-content": "error",
 		"jsx-a11y/anchor-is-valid": [
 			"error",
@@ -265,6 +266,7 @@
 			"error",
 			{
 				"allowArrowFunctions": true,
+				"allowFunctions": true,
 				"ignoreRefs": true
 			}
 		],
@@ -281,6 +283,7 @@
 				"allowAllCaps": true
 			}
 		],
+		"react/jsx-uses-react": "off",
 		"react/no-access-state-in-setstate": "error",
 		"react/no-multi-comp": "off",
 		"react/no-redundant-should-component-update": "error",
@@ -296,6 +299,7 @@
 				"skipUndeclared": true
 			}
 		],
+		"react/react-in-jsx-scope": "off",
 		"react/self-closing-comp": "warn",
 		"react/style-prop-object": "off",
 		"react/void-dom-elements-no-children": "error"
