@@ -20,6 +20,7 @@
 		"jest/no-expect-resolves": "error",
 		"jest/no-if": "off",
 		"jest/no-test-return-statement": "off",
+    "jest/no-truthy-falsy": "off",
 		"jest/prefer-hooks-on-top": "error",
 		"jest/prefer-spy-on": "warn",
 		"jest/prefer-todo": "warn"
