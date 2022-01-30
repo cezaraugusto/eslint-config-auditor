@@ -10,9 +10,9 @@
 				"import/order": "off"
 			}
 		},
-    {
-      "files": [
-        "*.test.ts",
+		{
+			"files": [
+			  "*.test.ts",
         "*.test.tsx"
       ],
       "rules": {
@@ -62,6 +62,29 @@
 						"ts-expect-error": "allow-with-description",
 						"ts-ignore": true,
 						"ts-nocheck": true
+					}
+				],
+				"@typescript-eslint/ban-types": [
+					"error",
+					{
+						"types": {
+							"Boolean": {
+								"fixWith": "boolean",
+								"message": "Use boolean instead"
+							},
+							"Number": {
+								"fixWith": "number",
+								"message": "Use number instead"
+							},
+							"String": {
+								"fixWith": "string",
+								"message": "Use string instead"
+							},
+							"Symbol": {
+								"fixWith": "symbol",
+								"message": "Use symbol instead"
+							}
+						}
 					}
 				],
 				"@typescript-eslint/consistent-type-assertions": "error",
@@ -170,6 +193,7 @@
 				"@typescript-eslint/no-namespace": "error",
 				"@typescript-eslint/no-non-null-asserted-optional-chain": "error",
 				"@typescript-eslint/no-non-null-assertion": "warn",
+				"@typescript-eslint/no-require-imports": "warn",
 				"@typescript-eslint/no-shadow": [
 					"error",
 					{
@@ -191,7 +215,15 @@
 				"@typescript-eslint/no-throw-literal": "warn",
 				"@typescript-eslint/no-unnecessary-qualifier": "warn",
 				"@typescript-eslint/no-unnecessary-type-arguments": "warn",
+				"@typescript-eslint/no-unnecessary-type-constraint": "warn",
 				"@typescript-eslint/no-unused-expressions": "error",
+				"@typescript-eslint/no-unused-vars": [
+					"warn",
+					{
+						"argsIgnorePattern": "_+",
+						"ignoreRestSiblings": true
+					}
+				],
 				"@typescript-eslint/no-use-before-define": [
 					"error",
 					{
@@ -239,10 +271,10 @@
 				"default-param-last": "off",
 				"no-empty-function": "off",
 				"no-magic-numbers": "off",
-				"no-shadow": "off",
+				"no-unused-vars": "off",
 				"no-use-before-define": "off",
 				"no-useless-constructor": "off"
 			}
-    }
+		}
 	]
 }
