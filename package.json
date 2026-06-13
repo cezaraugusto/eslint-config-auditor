@@ -111,6 +111,7 @@
     "@rslib/core": "^0.6.9",
     "@types/node": "^22.8.1",
     "eslint": "^9.25.0",
+    "jest": "^30.4.2",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3"
   },
