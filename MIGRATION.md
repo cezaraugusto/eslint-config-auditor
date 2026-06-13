@@ -13,7 +13,7 @@ could not be ported verbatim.
 | `@typescript-eslint/parser` + `@typescript-eslint/eslint-plugin` (^5) | `typescript-eslint` (^8) | Flat-config-native package providing parser and plugin. |
 | (env/globals via eslintrc `env`) | `globals` (^16) | `env: { es2021, node }` became `languageOptions.globals` with `globals.es2021` + `globals.node`. |
 
-All plugins are now regular dependencies of this package , consumers no longer
+All plugins are now regular dependencies of this package; consumers no longer
 install them separately.
 
 ## Renamed or dropped rules
