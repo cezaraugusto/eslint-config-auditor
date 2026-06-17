@@ -11,7 +11,7 @@
 
 Auditor uses sane defaults focused on code readability. The Auditor's philosophy is that good code means easy to understand code.
 
-Along with its own rules, Auditor by default includes battle-tested rules from [`eslint-plugin-import`](https://github.com/import-js/eslint-plugin-import), [`eslint-plugin-promise`](https://github.com/eslint-community/eslint-plugin-promise), and [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n). Both on browser and Node.js, **Auditor gives you the confidence you need to write efficient JavaScript code**.
+Along with its own rules, Auditor by default includes battle-tested rules from [`eslint-plugin-import-x`](https://github.com/un-ts/eslint-plugin-import-x), [`eslint-plugin-promise`](https://github.com/eslint-community/eslint-plugin-promise), and [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n). Both on browser and Node.js, **Auditor gives you the confidence you need to write efficient JavaScript code**.
 
 Besides linting standard JavaScript code gracefully, Auditor also has first-class support for React, Jest, and TypeScript. See [rules](#rules) about usage.
 
@@ -115,7 +115,7 @@ export default [...auditor, ...react];
 
 ### TypeScript
 
-Uses [`typescript-eslint`](https://typescript-eslint.io) and [`eslint-plugin-import`](https://www.npmjs.com/package/eslint-plugin-import) (already included). Rules are scoped to `**/*.ts`/`**/*.tsx` files and use the [project service](https://typescript-eslint.io/packages/parser/#projectservice) for type-aware linting, so a `tsconfig.json` in your project root is all you need.
+Uses [`typescript-eslint`](https://typescript-eslint.io) and [`eslint-plugin-import-x`](https://www.npmjs.com/package/eslint-plugin-import-x) (already included). Rules are scoped to `**/*.ts`/`**/*.tsx` files and use the [project service](https://typescript-eslint.io/packages/parser/#projectservice) for type-aware linting, so a `tsconfig.json` in your project root is all you need.
 
 The base config (`recommended`/`finest`) only attaches to JavaScript files, so a TypeScript project must include this config for its `.ts`/`.tsx` files to be linted at all. The `eslint-config-auditor/ts` preset bundles `recommended` + `finest` + `typescript` so you can do it in one import:
 

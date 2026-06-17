@@ -1,16 +1,27 @@
 import { createRequire } from 'node:module';
 import path from 'node:path';
-import { ESLint, type Linter } from 'eslint';
+import { ESLint, Linter } from 'eslint';
 import { describe, expect, test } from 'vitest';
 import auditor, {
   finest,
   jest as jestConfig,
   react as reactConfig,
   recommended,
+  ts as tsConfig,
+  typescriptChecked as typescriptCheckedConfig,
   typescript as typescriptConfig,
 } from '../dist/index.js';
 
 const FIXTURES = path.join(__dirname, 'fixtures');
+
+// eslint-plugin-react <=7.37.5 calls the context.getFilename()/getScope() APIs
+// that ESLint 10 removed, so several of its rules throw at lint time on ESLint
+// 10+. The `react` config is therefore documented as experimental until
+// eslint-plugin-react ships an ESLint 10 compatible release. This guard runs the
+// react live-lint test on ESLint 9 (where it passes) and skips it on 10+.
+// TODO: remove once eslint-plugin-react supports ESLint 10.
+const ESLINT_MAJOR = Number.parseInt(ESLint.version.split('.')[0], 10);
+const reactLintTest = ESLINT_MAJOR >= 10 ? test.skip : test;
 
 const variants: Record<string, Linter.Config[]> = {
   index: auditor,
@@ -104,6 +115,7 @@ describe('config structure', () => {
     expect(Array.isArray(cjs.jest)).toBe(true);
     expect(Array.isArray(cjs.react)).toBe(true);
     expect(Array.isArray(cjs.typescript)).toBe(true);
+    expect(Array.isArray(cjs.typescriptChecked)).toBe(true);
   });
 });
 
@@ -131,7 +143,7 @@ describe('programmatic ESLint 9 validation', () => {
     expect(result.fatalErrorCount).toBe(0);
   });
 
-  test('react lints a JSX file', async () => {
+  reactLintTest('react lints a JSX file', async () => {
     const result = await lint(
       reactConfig,
       path.join(FIXTURES, 'component.jsx'),
@@ -140,7 +152,7 @@ describe('programmatic ESLint 9 validation', () => {
     expect(result.fatalErrorCount).toBe(0);
   });
 
-  test('typescript lints a TS file (type-aware)', async () => {
+  test('typescript (default, syntactic) lints a TS file', async () => {
     const result = await lint(
       typescriptConfig,
       path.join(FIXTURES, 'ts', 'example.ts'),
@@ -173,9 +185,29 @@ describe('programmatic ESLint 9 validation', () => {
     expect(nonNull).toEqual([]);
   });
 
-  test('type-aware rules execute against the project service', async () => {
+  test('default typescript is NOT type-aware (no project service, no crash on stray .ts)', async () => {
+    // typed-check.ts is not under the fixture tsconfig from this cwd; the
+    // default config must lint it syntactically without a project-service
+    // parse error, and must not run type-aware rules.
     const result = await lint(
       typescriptConfig,
+      path.join(FIXTURES, 'ts', 'typed-check.ts'),
+      { cwd: path.join(FIXTURES, 'ts') },
+    );
+    expect(result.fatalErrorCount).toBe(0);
+    const projectErr = result.messages.filter((m) =>
+      /project service|was not found by/i.test(m.message),
+    );
+    expect(projectErr).toEqual([]);
+    const typed = result.messages.filter(
+      (m) => m.ruleId === '@typescript-eslint/only-throw-error',
+    );
+    expect(typed).toEqual([]);
+  });
+
+  test('typescript-checked runs type-aware rules against the project service', async () => {
+    const result = await lint(
+      typescriptCheckedConfig,
       path.join(FIXTURES, 'ts', 'typed-check.ts'),
       { cwd: path.join(FIXTURES, 'ts') },
     );
@@ -214,5 +246,184 @@ describe('programmatic ESLint 9 validation', () => {
       expect(config).toBeTruthy();
       expect(Object.keys(config.rules ?? {}).length).toBeGreaterThan(0);
     }
+  });
+});
+
+describe('hardened style rules', () => {
+  const linter = new Linter();
+  const ids = (
+    code: string,
+    rule: string,
+    configs: Linter.Config[] = recommended,
+    filename = 'file.js',
+  ) =>
+    linter
+      .verify(code, configs, { filename })
+      .filter((message) => message.ruleId === rule);
+
+  test('arrow-parens requires parentheses around a single param', () => {
+    expect(ids('const f = (x) => x\n', '@stylistic/arrow-parens')).toEqual([]);
+    expect(
+      ids('const f = x => x\n', '@stylistic/arrow-parens').length,
+    ).toBeGreaterThan(0);
+  });
+
+  test('jsx-quotes prefers double quotes', () => {
+    const configs = [...recommended, { files: ['**/*.jsx'], rules: {} }];
+    expect(
+      ids(
+        'const a = <div id="x" />\n',
+        '@stylistic/jsx-quotes',
+        configs,
+        'c.jsx',
+      ),
+    ).toEqual([]);
+    expect(
+      ids(
+        "const a = <div id='x' />\n",
+        '@stylistic/jsx-quotes',
+        configs,
+        'c.jsx',
+      ).length,
+    ).toBeGreaterThan(0);
+  });
+
+  test('if statements must be surrounded by blank lines', () => {
+    const rule = '@stylistic/padding-line-between-statements';
+    // Missing blank lines before and after the if -> two reports.
+    expect(
+      ids('const a = 1\nif (a) {\n  a\n}\na\n', rule).length,
+    ).toBeGreaterThanOrEqual(2);
+    // Properly padded -> no reports.
+    expect(ids('const a = 1\n\nif (a) {\n  a\n}\n\na\n', rule)).toEqual([]);
+  });
+
+  test('an early return stays tight against its guard if', () => {
+    const rule = '@stylistic/padding-line-between-statements';
+    const code =
+      'function g() {\n  if (cond) {\n    cond\n  }\n  return 1\n}\n';
+    expect(ids(code, rule)).toEqual([]);
+  });
+
+  test('max-lines caps source files at 350 LOC but exempts large-by-nature files', async () => {
+    const longFile = 'globalThis.x = 1\n'.repeat(351);
+    const run = async (filename: string) => {
+      const eslint = new ESLint({
+        cwd: FIXTURES,
+        overrideConfigFile: true,
+        overrideConfig: finest as Linter.Config[],
+      });
+      const [result] = await eslint.lintText(longFile, { filePath: filename });
+      return result.messages.filter((m) => m.ruleId === 'max-lines');
+    };
+
+    // Hand-written source is capped...
+    expect((await run(path.join(FIXTURES, 'big.js'))).length).toBeGreaterThan(
+      0,
+    );
+    // ...but config, declaration, generated, and test/spec files are exempt.
+    expect(await run(path.join(FIXTURES, 'big.config.js'))).toEqual([]);
+    expect(await run(path.join(FIXTURES, 'big.d.ts'))).toEqual([]);
+    expect(await run(path.join(FIXTURES, 'big.test.ts'))).toEqual([]);
+    expect(await run(path.join(FIXTURES, 'big.spec.js'))).toEqual([]);
+    expect(await run(path.join(FIXTURES, '__tests__', 'big.js'))).toEqual([]);
+  });
+});
+
+describe('consumer ergonomics', () => {
+  test('ts preset equals recommended + finest + typescript', () => {
+    expect(tsConfig).toEqual([...recommended, ...finest, ...typescriptConfig]);
+  });
+
+  test('ts preset is exported from the CommonJS build', () => {
+    const require = createRequire(import.meta.url);
+    const cjs = require('../dist/index.cjs');
+    expect(Array.isArray(cjs.ts)).toBe(true);
+  });
+
+  test('ts preset lints a .ts file as a single import', async () => {
+    const result = await lint(
+      tsConfig,
+      path.join(FIXTURES, 'ts', 'example.ts'),
+      { cwd: path.join(FIXTURES, 'ts') },
+    );
+    expect(result.fatalErrorCount).toBe(0);
+  });
+
+  test('recommended lints .jsx files without extra file config', async () => {
+    // Previously .jsx matched no config ("No matching configuration found");
+    // the auditor/recommended-jsx entry now opts it in.
+    const result = await lint(
+      recommended,
+      path.join(FIXTURES, 'component.jsx'),
+    );
+    expect(result.fatalErrorCount).toBe(0);
+    const noMatch = result.messages.filter((m) =>
+      /no matching configuration/i.test(m.message),
+    );
+    expect(noMatch).toEqual([]);
+    // A real rule from `recommended` actually ran against the JSX file.
+    expect(result.messages.length).toBeGreaterThan(0);
+  });
+
+  test('typescript-checked lints a loose *.config.ts via allowDefaultProject', async () => {
+    const cwd = path.join(FIXTURES, 'loose-ts');
+    // allowDefaultProject globs are matched relative to tsconfigRootDir (which
+    // defaults to the directory ESLint runs from). Point it at the fixture
+    // root to mirror a consumer running `eslint` from their repo root, where
+    // `*.config.ts` matches a top-level config file.
+    const result = await lint(
+      [
+        ...(typescriptCheckedConfig as Linter.Config[]),
+        {
+          files: ['**/*.ts'],
+          languageOptions: { parserOptions: { tsconfigRootDir: cwd } },
+        },
+      ],
+      path.join(cwd, 'tool.config.ts'),
+      { cwd },
+    );
+    // The file is outside tsconfig `include`; without allowDefaultProject the
+    // project service throws a fatal "not found by the project service".
+    expect(result.fatalErrorCount).toBe(0);
+    const projectErr = result.messages.filter((m) =>
+      /project service|was not found by/i.test(m.message),
+    );
+    expect(projectErr).toEqual([]);
+  });
+
+  test('import/order runs on ESLint 10 without crashing', () => {
+    // eslint-plugin-import's import/order calls sourceCode.getTokenOrCommentAfter
+    // (removed in ESLint 10) while checking `newlines-between`, throwing on any
+    // multi-group import block. eslint-plugin-import-x fixes it. This file has
+    // builtin + external + relative imports with no blank lines between groups,
+    // which is exactly the path that used to crash.
+    const code = [
+      "import path from 'node:path'",
+      "import semver from 'semver'",
+      "import {foo} from './foo'",
+      '',
+      'export {path, semver, foo}',
+      '',
+    ].join('\n');
+    // verify() throws if a rule crashes; reaching the assertion means it ran.
+    const messages = new Linter().verify(code, recommended, {
+      filename: 'imports.js',
+    });
+    const order = messages.filter((m) => m.ruleId === 'import/order');
+    expect(order.length).toBeGreaterThan(0);
+  });
+
+  test('node/no-sync does not crash without type information', () => {
+    // eslint-plugin-n v18 made no-sync type-aware (it calls getParserServices),
+    // so a *Sync call throws "requires type information" without a project
+    // service. It must be off in the syntactic default. verify() would throw if
+    // it ran; reaching the assertion proves it is disabled.
+    const code = "import fs from 'node:fs'\n\nfs.readFileSync('x')\n";
+    const messages = new Linter().verify(code, recommended, {
+      filename: 'sync.js',
+    });
+    const noSync = messages.filter((m) => m.ruleId === 'node/no-sync');
+    expect(noSync).toEqual([]);
   });
 });
