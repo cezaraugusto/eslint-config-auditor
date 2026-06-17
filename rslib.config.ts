@@ -9,6 +9,8 @@ export default defineConfig({
       jest: './src/jest.ts',
       react: './src/react.ts',
       typescript: './src/typescript.ts',
+      'typescript-checked': './src/typescript-checked.ts',
+      ts: './src/ts.ts',
     },
   },
   lib: [

@@ -1,20 +1,9 @@
 // Ambient module declarations for ESLint plugins that do not ship
-// their own TypeScript type definitions.
-declare module 'eslint-plugin-import' {
-  import type { ESLint, Linter } from 'eslint';
-  export const rules: NonNullable<ESLint.Plugin['rules']>;
-  export const configs: Record<string, unknown>;
-  export const flatConfigs: {
-    recommended: Linter.Config;
-    errors: Linter.Config;
-    warnings: Linter.Config;
-    typescript: Linter.Config;
-    react: Linter.Config;
-  };
-}
-
+// their own TypeScript type definitions. (eslint-plugin-import-x ships its
+// own types, so it does not need a shim here.)
 declare module 'eslint-plugin-jsx-a11y' {
   import type { ESLint, Linter } from 'eslint';
+
   const plugin: ESLint.Plugin & {
     flatConfigs: {
       recommended: Linter.Config;
@@ -26,6 +15,7 @@ declare module 'eslint-plugin-jsx-a11y' {
 
 declare module 'eslint-plugin-react' {
   import type { ESLint, Linter } from 'eslint';
+
   const plugin: ESLint.Plugin & {
     configs: {
       flat: {
@@ -40,12 +30,14 @@ declare module 'eslint-plugin-react' {
 
 declare module 'eslint-plugin-react-hooks' {
   import type { ESLint } from 'eslint';
+
   const plugin: ESLint.Plugin;
   export default plugin;
 }
 
 declare module 'eslint-plugin-promise' {
   import type { ESLint } from 'eslint';
+
   const plugin: ESLint.Plugin;
   export default plugin;
 }

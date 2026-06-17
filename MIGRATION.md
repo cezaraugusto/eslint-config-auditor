@@ -1,3 +1,108 @@
+# Migration: 1.0.0 (ESLint 9) → 2.0.0 (ESLint 10, @stylistic)
+
+Version 2.0.0 targets **ESLint 10** and moves every formatting/stylistic rule
+out of ESLint core (where they are deprecated and being removed) into
+[`@stylistic/eslint-plugin`](https://eslint.style). All rule severities and
+options are unchanged; only the rule namespace changed. The full dependency set
+was also bumped to current majors.
+
+## Requirements
+
+| | 1.0.0 | 2.0.0 |
+| --- | --- | --- |
+| `eslint` (peer) | `>=9` | `>=10` |
+| Node.js | `>=18.18.0` | `^20.19.0 \|\| ^22.13.0 \|\| >=24` |
+
+## Dependency bumps
+
+| Package | 1.0.0 | 2.0.0 |
+| --- | --- | --- |
+| `@stylistic/eslint-plugin` | , | `^5.10.0` (new) |
+| `eslint-plugin-import` → `eslint-plugin-import-x` | `^2.31.0` | `^4.16.2` |
+| `eslint-plugin-jest` | `^28.11.0` | `^29.15.2` |
+| `eslint-plugin-n` | `^17.17.0` | `^18.1.0` |
+| `eslint-plugin-promise` | `^7.2.1` | `^7.3.0` |
+| `eslint-plugin-react-hooks` | `^5.2.0` | `^7.1.1` |
+| `globals` | `^16.0.0` | `^17.6.0` |
+| `typescript-eslint` | `^8.31.0` | `^8.61.0` |
+
+`eslint-plugin-jsx-a11y` (`^6.10.2`) and `eslint-plugin-react` (`^7.37.5`) were
+already at their latest releases and are unchanged.
+
+### `eslint-plugin-import` → `eslint-plugin-import-x`
+
+`eslint-plugin-import@2.32.0` (its latest release) crashes on ESLint 10: its
+`import/order` rule calls `sourceCode.getTokenOrCommentAfter`, an API ESLint 10
+removed, throwing on any multi-group import block. Auditor switched to the
+actively maintained fork [`eslint-plugin-import-x`](https://github.com/un-ts/eslint-plugin-import-x),
+which supports ESLint `^8.57 || ^9 || ^10`. It is a drop-in: the same `import/*`
+rule names and `flatConfigs` are used and the plugin is still registered under
+the `import` namespace, so rule config and inline `// eslint-disable import/...`
+directives are unchanged.
+
+## Formatting rules moved to `@stylistic`
+
+The 57 core formatting rules used by `recommended`/`finest` (`indent`, `quotes`,
+`semi`, `comma-dangle`, `brace-style`, `object-curly-spacing`, …) are now
+configured under the `@stylistic/` namespace and the plugin is registered as
+`@stylistic`. Severities and options are identical. Two notes:
+
+- `func-call-spacing` was renamed to `@stylistic/function-call-spacing` (the
+  name `@stylistic` ships it under).
+- `object-property-newline`'s deprecated `allowMultiplePropertiesPerLine` option
+  was replaced by the equivalent `allowAllPropertiesOnSameLine` (the only name
+  `@stylistic` accepts).
+
+`lines-around-directive` and `unicode-bom` have no `@stylistic` equivalent and
+remain core rules. If you have inline `// eslint-disable` directives that target
+a moved rule by its old core name, update the prefix (e.g. `indent` →
+`@stylistic/indent`).
+
+## New and changed rules in 2.0.0
+
+These harden the config and align it with the [Extension.js](https://extension.js.org)
+house style (Extension.js itself is formatter-only via Biome; these encode the
+same conventions as enforceable lint rules and tighten them):
+
+| Rule | 1.0.0 | 2.0.0 | Why |
+| --- | --- | --- | --- |
+| `@stylistic/jsx-quotes` | `prefer-single` | `prefer-double` | Matches Extension.js (`jsxQuoteStyle: "double"`). |
+| `@stylistic/arrow-parens` | (not set) | `['error', 'always']` | Matches Extension.js (`arrowParentheses: "always"`). |
+| `@stylistic/padding-line-between-statements` | `warn` | `error`, plus blank lines required before **and** after every `if` block | Requested. First-in-block `if`s are exempt; an `if` immediately followed by `return` is left tight (the rule is ordered last so it wins over the `block-like → return` rules). |
+| `max-lines` (`finest`) | `['warn', 500]` | `['error', { max: 350, skipBlankLines: true, skipComments: true }]` | Requested 350-LOC cap. A new `auditor/finest-large-by-nature` config entry turns it off for `*.config.*`, `*.d.ts`, `*.generated.*`, `generated/**`, `*.json`, and test/spec files (`*.test.*`, `*.spec.*`, `__tests__/**`, `__test__/**`, `__spec__/**`). |
+
+Two `@stylistic` option deprecations carried over from core were also corrected
+(no behavior change): `line-comment-position`'s `applyDefaultPatterns` →
+`applyDefaultIgnorePatterns`, and `quotes`' `allowTemplateLiterals: false` →
+`'never'`.
+
+## Consumer ergonomics added in 2.0.0
+
+- **`eslint-config-auditor/ts`** , a new preset equal to
+  `recommended` + `finest` + `typescript`, so TypeScript projects need a single
+  import. (`...auditor` alone never linted `.ts`/`.tsx`; the base config only
+  attaches to JavaScript extensions.)
+- **`.jsx` files are now linted by the base config** (`auditor/recommended-jsx`).
+  Previously they matched no config and were silently skipped.
+- **`projectService.allowDefaultProject`** now lists `*.config.ts`,
+  `*.config.mts`, and `*.config.cts`, so a root-level config file outside the
+  tsconfig `include` lints instead of throwing "not found by the project
+  service."
+
+See [CONSUMING.md](./CONSUMING.md) for per-project-type setup recipes.
+
+## Known limitation: the `react` config on ESLint 10
+
+`eslint-plugin-react` (≤ `7.37.5`, the latest release) calls
+`context.getFilename()`/`context.getScope()`, which ESLint 10 removed, so
+several of its rules throw at lint time. The `react` export is therefore
+**experimental** on ESLint 10 and will resume working once `eslint-plugin-react`
+publishes an ESLint 10 compatible release , no change to this package will be
+required. All other configs work on ESLint 10. (On ESLint 9 the `react` config
+still works, but this package's peer range now starts at `>=10`.)
+
+---
+
 # Migration: 0.x (eslintrc, ESLint 8) → 1.0.0 (flat config, ESLint 9)
 
 Version 1.0.0 ports every config to the ESLint 9 flat config format. The rule

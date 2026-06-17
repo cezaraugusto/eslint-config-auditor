@@ -6,6 +6,11 @@ import importPlugin from './import-plugin';
 
 const TS_FILES = ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'];
 
+// Default TypeScript config: syntactic only. It does NOT enable the
+// typescript-eslint project service, so it never throws "not found by the
+// project service" on `.ts` files outside a tsconfig (root tests, scripts,
+// etc.) and needs no per-file tsconfig coverage. For the ~10 rules that require
+// type information, use `eslint-config-auditor/typescript-checked` instead.
 const typescript: Linter.Config[] = [
   // Equivalent of the legacy "plugin:@typescript-eslint/eslint-recommended"
   // and "plugin:@typescript-eslint/recommended" presets, scoped to TS files
@@ -31,10 +36,6 @@ const typescript: Linter.Config[] = [
     languageOptions: {
       parser: tseslint.parser as Linter.Parser,
       sourceType: 'module',
-      parserOptions: {
-        // Replaces the legacy "project"/"projectFolderIgnoreList" globs
-        projectService: true,
-      },
     },
     plugins: {
       import: importPlugin,
@@ -70,7 +71,6 @@ const typescript: Linter.Config[] = [
         },
       ],
       '@typescript-eslint/default-param-last': 'error',
-      '@typescript-eslint/dot-notation': 'error',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-member-accessibility': [
         'error',
@@ -85,37 +85,6 @@ const typescript: Linter.Config[] = [
         },
       ],
       '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/naming-convention': [
-        'error',
-        {
-          format: ['PascalCase', 'camelCase'],
-          leadingUnderscore: 'allow',
-          selector: 'default',
-          trailingUnderscore: 'allow',
-        },
-        {
-          format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
-          leadingUnderscore: 'allow',
-          selector: 'variable',
-          trailingUnderscore: 'allow',
-        },
-        {
-          format: ['camelCase', 'PascalCase'],
-          selector: 'function',
-        },
-        {
-          format: ['PascalCase'],
-          selector: 'typeLike',
-        },
-        {
-          format: null,
-          selector: 'memberLike',
-        },
-        {
-          format: null,
-          selector: 'parameter',
-        },
-      ],
       '@typescript-eslint/no-empty-function': [
         'error',
         {
@@ -125,7 +94,6 @@ const typescript: Linter.Config[] = [
       // Replaces "@typescript-eslint/no-empty-interface", removed in
       // typescript-eslint v8
       '@typescript-eslint/no-empty-object-type': 'error',
-      '@typescript-eslint/no-implied-eval': 'error',
       '@typescript-eslint/no-inferrable-types': [
         'error',
         {
@@ -166,11 +134,6 @@ const typescript: Linter.Config[] = [
           ],
         },
       ],
-      // Replaces "@typescript-eslint/no-throw-literal", renamed to
-      // "only-throw-error" in typescript-eslint v8
-      '@typescript-eslint/only-throw-error': 'warn',
-      '@typescript-eslint/no-unnecessary-qualifier': 'warn',
-      '@typescript-eslint/no-unnecessary-type-arguments': 'warn',
       '@typescript-eslint/no-unnecessary-type-constraint': 'warn',
       '@typescript-eslint/no-unused-expressions': 'error',
       '@typescript-eslint/no-unused-vars': [
@@ -195,16 +158,6 @@ const typescript: Linter.Config[] = [
       '@typescript-eslint/prefer-enum-initializers': 'warn',
       '@typescript-eslint/prefer-function-type': 'error',
       '@typescript-eslint/prefer-namespace-keyword': 'error',
-      '@typescript-eslint/prefer-nullish-coalescing': [
-        'warn',
-        {
-          ignoreConditionalTests: true,
-          ignoreMixedLogicalExpressions: true,
-        },
-      ],
-      '@typescript-eslint/prefer-optional-chain': 'warn',
-      '@typescript-eslint/require-array-sort-compare': 'error',
-      '@typescript-eslint/restrict-plus-operands': 'error',
       '@typescript-eslint/triple-slash-reference': [
         'error',
         {

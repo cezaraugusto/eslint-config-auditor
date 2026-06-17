@@ -1,4 +1,5 @@
 // MIT license. Cezar Augusto <boss@cezaraugusto.net>.
+import stylistic from '@stylistic/eslint-plugin';
 import type { Linter } from 'eslint';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import nodePlugin from 'eslint-plugin-n';
@@ -9,6 +10,7 @@ const finest: Linter.Config[] = [
   {
     name: 'auditor/finest',
     plugins: {
+      '@stylistic': stylistic,
       import: importPlugin,
       'jsx-a11y': jsxA11yPlugin,
       node: nodePlugin,
@@ -17,7 +19,14 @@ const finest: Linter.Config[] = [
     rules: {
       complexity: ['warn', 10],
       'func-names': 'warn',
-      'max-lines': ['warn', 500],
+      'max-lines': [
+        'error',
+        {
+          max: 350,
+          skipBlankLines: true,
+          skipComments: true,
+        },
+      ],
       'max-lines-per-function': [
         'warn',
         {
@@ -27,7 +36,7 @@ const finest: Linter.Config[] = [
       ],
       'max-nested-callbacks': ['warn', 6],
       'max-params': ['warn', 3],
-      'max-statements-per-line': [
+      '@stylistic/max-statements-per-line': [
         'warn',
         {
           max: 1,
@@ -79,6 +88,28 @@ const finest: Linter.Config[] = [
           ignoreConstructors: false,
         },
       ],
+    },
+  },
+  {
+    // The 350-line cap targets hand-written source. Config files, generated
+    // output, type declarations, data files (JSON), and test/spec files are
+    // routinely large by nature, so the limit is lifted there. (ESLint does not
+    // lint JSON without a dedicated processor; the glob is listed for clarity
+    // and forward compatibility.)
+    name: 'auditor/finest-large-by-nature',
+    files: [
+      '**/*.config.{js,cjs,mjs,jsx,ts,cts,mts,tsx}',
+      '**/*.d.ts',
+      '**/*.json',
+      '**/*.generated.*',
+      '**/generated/**',
+      '**/*.{test,spec}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}',
+      '**/__tests__/**',
+      '**/__test__/**',
+      '**/__spec__/**',
+    ],
+    rules: {
+      'max-lines': 'off',
     },
   },
 ];

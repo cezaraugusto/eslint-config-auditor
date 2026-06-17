@@ -24,6 +24,7 @@
 // |__/  |__/ \______/ |_______/ |______/   |__/   \______/ |__/  |__/
 //
 // MIT license. Cezar Augusto <boss@cezaraugusto.net>.
+import stylistic from '@stylistic/eslint-plugin';
 import type { Linter } from 'eslint';
 import nodePlugin from 'eslint-plugin-n';
 import promisePlugin from 'eslint-plugin-promise';
@@ -50,6 +51,7 @@ const recommended: Linter.Config[] = [
       },
     },
     plugins: {
+      '@stylistic': stylistic,
       import: importPlugin,
       node: nodePlugin,
       promise: promisePlugin,
@@ -62,16 +64,17 @@ const recommended: Linter.Config[] = [
           setWithoutGet: true,
         },
       ],
-      'array-bracket-newline': ['error', 'consistent'],
-      'array-bracket-spacing': ['error', 'never'],
+      '@stylistic/array-bracket-newline': ['error', 'consistent'],
+      '@stylistic/array-bracket-spacing': ['error', 'never'],
       'array-callback-return': [
         'error',
         {
           allowImplicit: true,
         },
       ],
-      'array-element-newline': ['error', 'consistent'],
-      'arrow-spacing': [
+      '@stylistic/array-element-newline': ['error', 'consistent'],
+      '@stylistic/arrow-parens': ['error', 'always'],
+      '@stylistic/arrow-spacing': [
         'error',
         {
           after: true,
@@ -79,8 +82,8 @@ const recommended: Linter.Config[] = [
         },
       ],
       'block-scoped-var': 'error',
-      'block-spacing': ['error', 'always'],
-      'brace-style': [
+      '@stylistic/block-spacing': ['error', 'always'],
+      '@stylistic/brace-style': [
         'error',
         '1tbs',
         {
@@ -103,16 +106,16 @@ const recommended: Linter.Config[] = [
           ignoreInlineComments: true,
         },
       ],
-      'comma-dangle': ['error', 'never'],
-      'comma-spacing': [
+      '@stylistic/comma-dangle': ['error', 'never'],
+      '@stylistic/comma-spacing': [
         'error',
         {
           after: true,
           before: false,
         },
       ],
-      'comma-style': ['error', 'last'],
-      'computed-property-spacing': [
+      '@stylistic/comma-style': ['error', 'last'],
+      '@stylistic/computed-property-spacing': [
         'error',
         'never',
         {
@@ -135,14 +138,14 @@ const recommended: Linter.Config[] = [
       ],
       'default-case-last': 'error',
       'default-param-last': 'error',
-      'dot-location': ['error', 'property'],
+      '@stylistic/dot-location': ['error', 'property'],
       'dot-notation': [
         'error',
         {
           allowKeywords: true,
         },
       ],
-      'eol-last': 'error',
+      '@stylistic/eol-last': 'error',
       eqeqeq: [
         'error',
         'always',
@@ -151,7 +154,7 @@ const recommended: Linter.Config[] = [
         },
       ],
       'for-direction': 'error',
-      'func-call-spacing': ['error', 'never'],
+      '@stylistic/function-call-spacing': ['error', 'never'],
       'func-names': 'warn',
       'func-style': [
         'warn',
@@ -160,9 +163,9 @@ const recommended: Linter.Config[] = [
           allowArrowFunctions: true,
         },
       ],
-      'function-call-argument-newline': ['error', 'consistent'],
-      'function-paren-newline': ['error', 'consistent'],
-      'generator-star-spacing': [
+      '@stylistic/function-call-argument-newline': ['error', 'consistent'],
+      '@stylistic/function-paren-newline': ['error', 'consistent'],
+      '@stylistic/generator-star-spacing': [
         'error',
         {
           after: true,
@@ -195,7 +198,10 @@ const recommended: Linter.Config[] = [
       'import/no-named-as-default-member': 'error',
       'import/no-named-default': 'error',
       'import/no-self-import': 'error',
-      'import/no-unused-modules': 'error',
+      // No-op on ESLint 10: the rule needs the FileEnumerator API that ESLint
+      // 10 removed (eslint-plugin-import-x emits a warning and does nothing).
+      // Off until the fork ships an alternative implementation.
+      'import/no-unused-modules': 'off',
       'import/no-useless-path-segments': [
         'error',
         {
@@ -231,7 +237,7 @@ const recommended: Linter.Config[] = [
           pathGroupsExcludedImportTypes: [],
         },
       ],
-      indent: [
+      '@stylistic/indent': [
         'error',
         2,
         {
@@ -277,25 +283,25 @@ const recommended: Linter.Config[] = [
           VariableDeclarator: 1,
         },
       ],
-      'jsx-quotes': ['error', 'prefer-single'],
-      'key-spacing': [
+      '@stylistic/jsx-quotes': ['error', 'prefer-double'],
+      '@stylistic/key-spacing': [
         'error',
         {
           afterColon: true,
           beforeColon: false,
         },
       ],
-      'keyword-spacing': [
+      '@stylistic/keyword-spacing': [
         'error',
         {
           after: true,
           before: true,
         },
       ],
-      'line-comment-position': [
+      '@stylistic/line-comment-position': [
         'warn',
         {
-          applyDefaultPatterns: true,
+          applyDefaultIgnorePatterns: true,
           position: 'above',
         },
       ],
@@ -306,7 +312,7 @@ const recommended: Linter.Config[] = [
           before: 'always',
         },
       ],
-      'lines-between-class-members': [
+      '@stylistic/lines-between-class-members': [
         'error',
         'always',
         {
@@ -314,7 +320,7 @@ const recommended: Linter.Config[] = [
         },
       ],
       'max-classes-per-file': ['off', 1],
-      'max-len': [
+      '@stylistic/max-len': [
         'error',
         {
           code: 80,
@@ -328,7 +334,7 @@ const recommended: Linter.Config[] = [
           max: 3,
         },
       ],
-      'multiline-ternary': ['error', 'always-multiline'],
+      '@stylistic/multiline-ternary': ['error', 'always-multiline'],
       'new-cap': [
         'error',
         {
@@ -336,7 +342,7 @@ const recommended: Linter.Config[] = [
           newIsCap: true,
         },
       ],
-      'new-parens': 'error',
+      '@stylistic/new-parens': 'error',
       'no-alert': 'warn',
       'no-array-constructor': 'error',
       'no-async-promise-executor': 'error',
@@ -346,7 +352,7 @@ const recommended: Linter.Config[] = [
       'no-class-assign': 'error',
       'no-compare-neg-zero': 'error',
       'no-cond-assign': ['error', 'except-parens'],
-      'no-confusing-arrow': 'error',
+      '@stylistic/no-confusing-arrow': 'error',
       'no-console': [
         'off',
         {
@@ -395,10 +401,10 @@ const recommended: Linter.Config[] = [
       'no-extra-bind': 'error',
       'no-extra-boolean-cast': 'error',
       'no-extra-label': 'error',
-      'no-extra-parens': ['error', 'functions'],
-      'no-extra-semi': 'error',
+      '@stylistic/no-extra-parens': ['error', 'functions'],
+      '@stylistic/no-extra-semi': 'error',
       'no-fallthrough': 'error',
-      'no-floating-decimal': 'error',
+      '@stylistic/no-floating-decimal': 'error',
       'no-func-assign': 'error',
       'no-global-assign': 'error',
       'no-implicit-coercion': [
@@ -431,7 +437,7 @@ const recommended: Linter.Config[] = [
         },
       ],
       'no-misleading-character-class': 'error',
-      'no-mixed-operators': [
+      '@stylistic/no-mixed-operators': [
         'error',
         {
           allowSamePrecedence: true,
@@ -442,11 +448,11 @@ const recommended: Linter.Config[] = [
           ],
         },
       ],
-      'no-mixed-spaces-and-tabs': 'error',
+      '@stylistic/no-mixed-spaces-and-tabs': 'error',
       'no-multi-assign': 'error',
-      'no-multi-spaces': 'error',
+      '@stylistic/no-multi-spaces': 'error',
       'no-multi-str': 'error',
-      'no-multiple-empty-lines': [
+      '@stylistic/no-multiple-empty-lines': [
         'error',
         {
           max: 1,
@@ -519,11 +525,11 @@ const recommended: Linter.Config[] = [
       ],
       'no-shadow-restricted-names': 'error',
       'no-sparse-arrays': 'error',
-      'no-tabs': 'error',
+      '@stylistic/no-tabs': 'error',
       'no-template-curly-in-string': 'error',
       'no-this-before-super': 'error',
       'no-throw-literal': 'error',
-      'no-trailing-spaces': 'error',
+      '@stylistic/no-trailing-spaces': 'error',
       'no-undef': 'error',
       'no-undef-init': 'error',
       'no-underscore-dangle': 'error',
@@ -575,7 +581,7 @@ const recommended: Linter.Config[] = [
       'no-useless-return': 'error',
       'no-var': 'error',
       'no-void': 'error',
-      'no-whitespace-before-property': 'error',
+      '@stylistic/no-whitespace-before-property': 'error',
       'no-with': 'error',
       'node/callback-return': 'off',
       'node/exports-style': [
@@ -598,12 +604,10 @@ const recommended: Linter.Config[] = [
       'node/no-process-exit': 'error',
       'node/no-restricted-import': 2,
       'node/no-restricted-require': 2,
-      'node/no-sync': [
-        'error',
-        {
-          allowAtRootLevel: true,
-        },
-      ],
+      // eslint-plugin-n v18 made `no-sync` type-aware (it calls
+      // getParserServices), so it throws without type information. It is off in
+      // the syntactic default and re-enabled in `typescript-checked`.
+      'node/no-sync': 'off',
       'node/no-unsupported-features/es-builtins': 'error',
       'node/prefer-global/buffer': 'error',
       'node/prefer-global/console': 'error',
@@ -616,18 +620,18 @@ const recommended: Linter.Config[] = [
       'node/prefer-promises/fs': 'warn',
       'node/process-exit-as-throw': 'error',
       'node/hashbang': 'error',
-      'object-curly-newline': [
+      '@stylistic/object-curly-newline': [
         'error',
         {
           consistent: true,
           multiline: true,
         },
       ],
-      'object-curly-spacing': ['error', 'never'],
-      'object-property-newline': [
+      '@stylistic/object-curly-spacing': ['error', 'never'],
+      '@stylistic/object-property-newline': [
         'error',
         {
-          allowMultiplePropertiesPerLine: true,
+          allowAllPropertiesOnSameLine: true,
         },
       ],
       'object-shorthand': [
@@ -640,7 +644,7 @@ const recommended: Linter.Config[] = [
       ],
       'one-var': ['error', 'never'],
       'operator-assignment': ['error', 'always'],
-      'operator-linebreak': [
+      '@stylistic/operator-linebreak': [
         'error',
         'after',
         {
@@ -651,7 +655,7 @@ const recommended: Linter.Config[] = [
           },
         },
       ],
-      'padded-blocks': [
+      '@stylistic/padded-blocks': [
         'error',
         {
           blocks: 'never',
@@ -659,8 +663,22 @@ const recommended: Linter.Config[] = [
           switches: 'never',
         },
       ],
-      'padding-line-between-statements': [
-        'warn',
+      '@stylistic/padding-line-between-statements': [
+        'error',
+        // Always surround `if` statements with a blank line. The first
+        // statement in a block is naturally exempt (there is no preceding
+        // statement to pad against), and the `if`->`return` exception below
+        // keeps an early return tight against its guard.
+        {
+          blankLine: 'always',
+          next: 'if',
+          prev: '*',
+        },
+        {
+          blankLine: 'always',
+          next: '*',
+          prev: 'if',
+        },
         {
           blankLine: 'always',
           next: '*',
@@ -682,11 +700,6 @@ const recommended: Linter.Config[] = [
           prev: '*',
         },
         {
-          blankLine: 'any',
-          next: 'return',
-          prev: 'if',
-        },
-        {
           blankLine: 'always',
           next: 'return',
           prev: 'block-like',
@@ -705,6 +718,14 @@ const recommended: Linter.Config[] = [
           blankLine: 'any',
           next: ['cjs-import'],
           prev: ['cjs-import'],
+        },
+        // Keep an early return tight against its guard: an `if` followed
+        // directly by `return` needs no blank line. Listed last so it wins
+        // over the block-like/multiline-block-like -> return rules above.
+        {
+          blankLine: 'any',
+          next: 'return',
+          prev: 'if',
         },
       ],
       'prefer-arrow-callback': [
@@ -753,12 +774,12 @@ const recommended: Linter.Config[] = [
       'promise/no-return-wrap': 'error',
       'promise/param-names': 'error',
       'promise/valid-params': 'warn',
-      'quote-props': ['error', 'as-needed'],
-      quotes: [
+      '@stylistic/quote-props': ['error', 'as-needed'],
+      '@stylistic/quotes': [
         'error',
         'single',
         {
-          allowTemplateLiterals: false,
+          allowTemplateLiterals: 'never',
           avoidEscape: true,
         },
       ],
@@ -766,27 +787,27 @@ const recommended: Linter.Config[] = [
       'require-atomic-updates': 'off',
       'require-await': 'error',
       'require-yield': 'error',
-      'rest-spread-spacing': ['error', 'never'],
-      semi: ['error', 'never'],
-      'semi-spacing': [
+      '@stylistic/rest-spread-spacing': ['error', 'never'],
+      '@stylistic/semi': ['error', 'never'],
+      '@stylistic/semi-spacing': [
         'error',
         {
           after: true,
           before: false,
         },
       ],
-      'space-before-blocks': ['error', 'always'],
-      'space-before-function-paren': ['error', 'always'],
-      'space-in-parens': ['error', 'never'],
-      'space-infix-ops': 'error',
-      'space-unary-ops': [
+      '@stylistic/space-before-blocks': ['error', 'always'],
+      '@stylistic/space-before-function-paren': ['error', 'always'],
+      '@stylistic/space-in-parens': ['error', 'never'],
+      '@stylistic/space-infix-ops': 'error',
+      '@stylistic/space-unary-ops': [
         'error',
         {
           nonwords: false,
           words: true,
         },
       ],
-      'spaced-comment': [
+      '@stylistic/spaced-comment': [
         'error',
         'always',
         {
@@ -802,8 +823,8 @@ const recommended: Linter.Config[] = [
         },
       ],
       'symbol-description': 'error',
-      'template-curly-spacing': ['error', 'never'],
-      'template-tag-spacing': ['error', 'never'],
+      '@stylistic/template-curly-spacing': ['error', 'never'],
+      '@stylistic/template-tag-spacing': ['error', 'never'],
       'unicode-bom': ['error', 'never'],
       'use-isnan': [
         'error',
@@ -819,15 +840,30 @@ const recommended: Linter.Config[] = [
         },
       ],
       'vars-on-top': 'error',
-      'wrap-iife': [
+      '@stylistic/wrap-iife': [
         'error',
         'any',
         {
           functionPrototypeMethods: true,
         },
       ],
-      'yield-star-spacing': ['error', 'both'],
+      '@stylistic/yield-star-spacing': ['error', 'both'],
       yoda: ['error', 'never'],
+    },
+  },
+  {
+    // ESLint only lints `.js`/`.mjs`/`.cjs` by default, so the rules above
+    // (a fileless, global config) never reach `.jsx` files. This entry opts
+    // `.jsx` into linting so plain-JSX projects work with just the base
+    // config. TypeScript's `.tsx` is handled by the `typescript` config.
+    name: 'auditor/recommended-jsx',
+    files: ['**/*.jsx'],
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
     },
   },
 ];
