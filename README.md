@@ -1,9 +1,13 @@
-[npm-image]: https://img.shields.io/npm/v/eslint-config-auditor.svg
-[npm-url]: https://npmjs.org/package/eslint-config-auditor
+[npm-version-image]: https://img.shields.io/npm/v/eslint-config-auditor.svg?color=0971fe
+[npm-version-url]: https://www.npmjs.com/package/eslint-config-auditor
+[npm-downloads-image]: https://img.shields.io/npm/dm/eslint-config-auditor.svg?color=2ecc40
+[npm-downloads-url]: https://www.npmjs.com/package/eslint-config-auditor
+[action-image]: https://github.com/cezaraugusto/eslint-config-auditor/actions/workflows/ci.yml/badge.svg?branch=main
+[action-url]: https://github.com/cezaraugusto/eslint-config-auditor/actions
 
-# eslint-config-auditor [![npm][npm-image]][npm-url]
+> Shareable ESLint flat config to help you write clear, efficient JavaScript code.
 
-> Shareable ESLint flat config to help you write clear, efficient JavaScript code. 😼
+# eslint-config-auditor [![Version][npm-version-image]][npm-version-url] [![Downloads][npm-downloads-image]][npm-downloads-url] [![workflow][action-image]][action-url]
 
 Auditor uses sane defaults focused on code readability. The Auditor's philosophy is that good code means easy to understand code.
 
@@ -11,7 +15,7 @@ Along with its own rules, Auditor by default includes battle-tested rules from [
 
 Besides linting standard JavaScript code gracefully, Auditor also has first-class support for React, Jest, and TypeScript. See [rules](#rules) about usage.
 
-Version 1.0.0 targets **ESLint 9+ and the flat config format** (`eslint.config.js`). All plugins ship as regular dependencies, so installing this package is all you need.
+Version 2.0.0 targets **ESLint 10+ and the flat config format** (`eslint.config.js`). All plugins ship as regular dependencies, so installing this package is all you need. The formatting/stylistic rules are provided through [`@stylistic/eslint-plugin`](https://eslint.style) under the `@stylistic/` namespace (ESLint deprecated and is removing these from core).
 
 ## Installation
 
@@ -19,7 +23,7 @@ Version 1.0.0 targets **ESLint 9+ and the flat config format** (`eslint.config.j
 npm install --save-dev eslint eslint-config-auditor
 ```
 
-Requires ESLint `>=9` and Node.js `>=18.18.0`.
+Requires ESLint `>=10` and Node.js `^20.19.0 || ^22.13.0 || >=24`.
 
 ## Usage
 
@@ -56,6 +60,23 @@ import finest from 'eslint-config-auditor/finest';
 export default [...recommended, ...finest];
 ```
 
+### Formatting conventions
+
+The `@stylistic` formatting rules enforce a single, opinionated style (a hardened
+superset of the [Extension.js](https://extension.js.org) house style):
+
+* 2-space indent, single quotes, **double** quotes in JSX, 80-column lines.
+* No semicolons, no trailing commas, no spaces inside `{ }`.
+* Arrow functions always parenthesize their parameter: `(x) => x`.
+* Every `if` statement is surrounded by blank lines (an early `return` directly
+  after a guard `if` is left tight).
+
+`finest` additionally caps files at **350 lines of code** (blank lines and
+comments excluded). Files that are routinely large by nature are exempt: config
+files (`*.config.*`), type declarations (`*.d.ts`), generated files
+(`*.generated.*`, `generated/**`), JSON, and test/spec files (`*.test.*`,
+`*.spec.*`, `__tests__/**`, `__spec__/**`).
+
 Auditor also offers first-class support for Jest, React, and TypeScript but since these are opinionated tools, you need to activate them manually.
 
 ### Jest
@@ -81,6 +102,9 @@ export default [
 
 Uses [`eslint-plugin-react`](https://www.npmjs.com/package/eslint-plugin-react), [`eslint-plugin-react-hooks`](https://www.npmjs.com/package/eslint-plugin-react-hooks), and [`eslint-plugin-jsx-a11y`](https://www.npmjs.com/package/eslint-plugin-jsx-a11y) (already included).
 
+> [!IMPORTANT]
+> **The `react` config is experimental on ESLint 10.** `eslint-plugin-react` (≤ 7.37.5, the latest release) calls `context.getFilename()`/`context.getScope()`, which ESLint 10 removed, so several of its rules throw at lint time. The `react` export will start working again once `eslint-plugin-react` ships an ESLint 10 compatible release — no change to this package will be required. Every other config (`recommended`, `finest`, `jest`, `typescript`) works on ESLint 10 today.
+
 ```js
 // eslint.config.js
 import auditor from 'eslint-config-auditor';
@@ -93,6 +117,17 @@ export default [...auditor, ...react];
 
 Uses [`typescript-eslint`](https://typescript-eslint.io) and [`eslint-plugin-import`](https://www.npmjs.com/package/eslint-plugin-import) (already included). Rules are scoped to `**/*.ts`/`**/*.tsx` files and use the [project service](https://typescript-eslint.io/packages/parser/#projectservice) for type-aware linting, so a `tsconfig.json` in your project root is all you need.
 
+The base config (`recommended`/`finest`) only attaches to JavaScript files, so a TypeScript project must include this config for its `.ts`/`.tsx` files to be linted at all. The `eslint-config-auditor/ts` preset bundles `recommended` + `finest` + `typescript` so you can do it in one import:
+
+```js
+// eslint.config.js
+import ts from 'eslint-config-auditor/ts';
+
+export default ts;
+```
+
+Or compose it yourself:
+
 ```js
 // eslint.config.js
 import auditor from 'eslint-config-auditor';
@@ -101,10 +136,12 @@ import typescript from 'eslint-config-auditor/typescript';
 export default [...auditor, ...typescript];
 ```
 
+See [CONSUMING.md](./CONSUMING.md) for copy-paste recipes per project type (JS, TS, React, Next.js, Jest, Biome coexistence) and notes on `projectService`.
+
 All variants can also be pulled from the root entry as named exports:
 
 ```js
-import { recommended, finest, jest, react, typescript } from 'eslint-config-auditor';
+import { recommended, finest, jest, react, ts, typescript } from 'eslint-config-auditor';
 ```
 
 ## Migrating from 0.x
