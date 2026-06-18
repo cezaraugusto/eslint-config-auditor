@@ -34,37 +34,6 @@ const typescriptChecked: Linter.Config[] = [
     },
     rules: {
       '@typescript-eslint/dot-notation': 'error',
-      '@typescript-eslint/naming-convention': [
-        'error',
-        {
-          format: ['PascalCase', 'camelCase'],
-          leadingUnderscore: 'allow',
-          selector: 'default',
-          trailingUnderscore: 'allow',
-        },
-        {
-          format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
-          leadingUnderscore: 'allow',
-          selector: 'variable',
-          trailingUnderscore: 'allow',
-        },
-        {
-          format: ['camelCase', 'PascalCase'],
-          selector: 'function',
-        },
-        {
-          format: ['PascalCase'],
-          selector: 'typeLike',
-        },
-        {
-          format: null,
-          selector: 'memberLike',
-        },
-        {
-          format: null,
-          selector: 'parameter',
-        },
-      ],
       '@typescript-eslint/no-implied-eval': 'error',
       // Replaces "@typescript-eslint/no-throw-literal", renamed to
       // "only-throw-error" in typescript-eslint v8

@@ -80,18 +80,6 @@ const typescript: Linter.Config[] = [
       ],
       '@typescript-eslint/default-param-last': 'error',
       '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/explicit-member-accessibility': [
-        'error',
-        {
-          accessibility: 'explicit',
-          overrides: {
-            accessors: 'explicit',
-            constructors: 'no-public',
-            methods: 'explicit',
-            parameterProperties: 'explicit',
-          },
-        },
-      ],
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-empty-function': [
         'error',

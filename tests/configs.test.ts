@@ -7,9 +7,11 @@ import auditor, {
   jest as jestConfig,
   react as reactConfig,
   recommended,
+  stylistic,
   ts as tsConfig,
   typescriptChecked as typescriptCheckedConfig,
   typescript as typescriptConfig,
+  vitest as vitestConfig,
 } from '../dist/index.js';
 
 const FIXTURES = path.join(__dirname, 'fixtures');
@@ -28,6 +30,7 @@ const variants: Record<string, Linter.Config[]> = {
   recommended,
   finest,
   jest: jestConfig,
+  vitest: vitestConfig,
   react: reactConfig,
   typescript: typescriptConfig,
 };
@@ -104,6 +107,19 @@ describe('config structure', () => {
     expect(globalsUsed).toHaveProperty('Promise');
   });
 
+  test('formatting is split out: recommended has no @stylistic rules, stylistic does', () => {
+    const ruleIds = (cfgs: Linter.Config[]) =>
+      cfgs.flatMap((c) => Object.keys(c.rules ?? {}));
+    const recStylistic = ruleIds(recommended).filter((id) =>
+      id.startsWith('@stylistic/'),
+    );
+    const stylStylistic = ruleIds(stylistic).filter((id) =>
+      id.startsWith('@stylistic/'),
+    );
+    expect(recStylistic).toEqual([]);
+    expect(stylStylistic.length).toBeGreaterThan(0);
+  });
+
   test('package is consumable from CommonJS', () => {
     const require = createRequire(import.meta.url);
     const cjs = require('../dist/index.cjs');
@@ -113,7 +129,9 @@ describe('config structure', () => {
     expect(Array.isArray(cjs.recommended)).toBe(true);
     expect(Array.isArray(cjs.finest)).toBe(true);
     expect(Array.isArray(cjs.jest)).toBe(true);
+    expect(Array.isArray(cjs.vitest)).toBe(true);
     expect(Array.isArray(cjs.react)).toBe(true);
+    expect(Array.isArray(cjs.stylistic)).toBe(true);
     expect(Array.isArray(cjs.typescript)).toBe(true);
     expect(Array.isArray(cjs.typescriptChecked)).toBe(true);
   });
@@ -141,6 +159,18 @@ describe('programmatic ESLint 9 validation', () => {
       path.join(FIXTURES, 'example.test.js'),
     );
     expect(result.fatalErrorCount).toBe(0);
+  });
+
+  test('vitest config provides test globals (no no-undef on describe/it/expect)', async () => {
+    // recommended turns no-undef on; the vitest env config must supply the
+    // test globals so they are not flagged.
+    const result = await lint(
+      [...recommended, ...vitestConfig],
+      path.join(FIXTURES, 'vitest-sample.js'),
+    );
+    expect(result.fatalErrorCount).toBe(0);
+    const undef = result.messages.filter((m) => m.ruleId === 'no-undef');
+    expect(undef).toEqual([]);
   });
 
   reactLintTest('react lints a JSX file', async () => {
@@ -251,10 +281,12 @@ describe('programmatic ESLint 9 validation', () => {
 
 describe('hardened style rules', () => {
   const linter = new Linter();
+  // @stylistic rules now live in the opt-in `stylistic` config, so exercise
+  // them with recommended + stylistic composed (how consumers opt in).
   const ids = (
     code: string,
     rule: string,
-    configs: Linter.Config[] = recommended,
+    configs: Linter.Config[] = [...recommended, ...stylistic],
     filename = 'file.js',
   ) =>
     linter
@@ -269,7 +301,11 @@ describe('hardened style rules', () => {
   });
 
   test('jsx-quotes prefers double quotes', () => {
-    const configs = [...recommended, { files: ['**/*.jsx'], rules: {} }];
+    const configs = [
+      ...recommended,
+      ...stylistic,
+      { files: ['**/*.jsx'], rules: {} },
+    ];
     expect(
       ids(
         'const a = <div id="x" />\n',
@@ -352,9 +388,10 @@ describe('consumer ergonomics', () => {
 
   test('recommended lints .jsx files without extra file config', async () => {
     // Previously .jsx matched no config ("No matching configuration found");
-    // the auditor/recommended-jsx entry now opts it in.
+    // the auditor/recommended-jsx entry now opts it in. Compose stylistic so a
+    // real rule fires against the JSX, proving the file is actually linted.
     const result = await lint(
-      recommended,
+      [...recommended, ...stylistic],
       path.join(FIXTURES, 'component.jsx'),
     );
     expect(result.fatalErrorCount).toBe(0);
@@ -362,7 +399,7 @@ describe('consumer ergonomics', () => {
       /no matching configuration/i.test(m.message),
     );
     expect(noMatch).toEqual([]);
-    // A real rule from `recommended` actually ran against the JSX file.
+    // A real rule actually ran against the JSX file (not silently skipped).
     expect(result.messages.length).toBeGreaterThan(0);
   });
 

@@ -60,16 +60,26 @@ import finest from 'eslint-config-auditor/finest';
 export default [...recommended, ...finest];
 ```
 
-### Formatting conventions
+### Formatting (opt-in)
 
-The `@stylistic` formatting rules enforce a single, opinionated style (a hardened
-superset of the [Extension.js](https://extension.js.org) house style):
+Formatting/stylistic rules are **not** part of the default config — most projects
+format with Biome or Prettier, and duplicating that in ESLint just creates noise
+and conflicts. Opt in with `eslint-config-auditor/stylistic` only if you want
+ESLint to own formatting too:
 
-* 2-space indent, single quotes, **double** quotes in JSX, 80-column lines.
-* No semicolons, no trailing commas, no spaces inside `{ }`.
-* Arrow functions always parenthesize their parameter: `(x) => x`.
-* Every `if` statement is surrounded by blank lines (an early `return` directly
-  after a guard `if` is left tight).
+```js
+// eslint.config.js — quality rules + ESLint-owned formatting
+import auditor from 'eslint-config-auditor';
+import stylistic from 'eslint-config-auditor/stylistic';
+
+export default [...auditor, ...stylistic];
+```
+
+The `stylistic` config (a hardened superset of the
+[Extension.js](https://extension.js.org) house style) enforces: 2-space indent,
+single quotes, **double** quotes in JSX, 80-column lines, no semicolons, no
+trailing commas, no spaces inside `{ }`, always-parenthesized arrow params
+(`(x) => x`), and blank lines surrounding every `if` block.
 
 `finest` additionally caps files at **350 lines of code** (blank lines and
 comments excluded). Files that are routinely large by nature are exempt: config
@@ -92,6 +102,25 @@ export default [
   ...auditor,
   // Scope Jest rules to your test files
   ...jest.map((config) => ({
+    ...config,
+    files: ['**/*.test.{js,jsx,ts,tsx}', '**/*.spec.{js,jsx,ts,tsx}'],
+  })),
+];
+```
+
+### Vitest
+
+Uses [`@vitest/eslint-plugin`](https://www.npmjs.com/package/@vitest/eslint-plugin) (already included). Includes the Vitest test globals (`describe`/`it`/`expect`/`vi`/…), so scope it to your test files just like Jest:
+
+```js
+// eslint.config.js
+import auditor from 'eslint-config-auditor';
+import vitest from 'eslint-config-auditor/vitest';
+
+export default [
+  ...auditor,
+  // Scope Vitest rules + globals to your test files
+  ...vitest.map((config) => ({
     ...config,
     files: ['**/*.test.{js,jsx,ts,tsx}', '**/*.spec.{js,jsx,ts,tsx}'],
   })),
@@ -141,7 +170,7 @@ See [CONSUMING.md](./CONSUMING.md) for copy-paste recipes per project type (JS, 
 All variants can also be pulled from the root entry as named exports:
 
 ```js
-import { recommended, finest, jest, react, ts, typescript } from 'eslint-config-auditor';
+import { recommended, finest, jest, vitest, react, stylistic, ts, typescript, typescriptChecked } from 'eslint-config-auditor';
 ```
 
 ## Migrating from 0.x

@@ -7,6 +7,8 @@ export default defineConfig({
       recommended: './src/recommended.ts',
       finest: './src/finest.ts',
       jest: './src/jest.ts',
+      vitest: './src/vitest.ts',
+      stylistic: './src/stylistic.ts',
       react: './src/react.ts',
       typescript: './src/typescript.ts',
       'typescript-checked': './src/typescript-checked.ts',

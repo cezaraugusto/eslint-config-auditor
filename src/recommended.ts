@@ -24,7 +24,6 @@
 // |__/  |__/ \______/ |_______/ |______/   |__/   \______/ |__/  |__/
 //
 // MIT license. Cezar Augusto <boss@cezaraugusto.net>.
-import stylistic from '@stylistic/eslint-plugin';
 import type { Linter } from 'eslint';
 import nodePlugin from 'eslint-plugin-n';
 import promisePlugin from 'eslint-plugin-promise';
@@ -51,7 +50,6 @@ const recommended: Linter.Config[] = [
       },
     },
     plugins: {
-      '@stylistic': stylistic,
       import: importPlugin,
       node: nodePlugin,
       promise: promisePlugin,
@@ -64,32 +62,13 @@ const recommended: Linter.Config[] = [
           setWithoutGet: true,
         },
       ],
-      '@stylistic/array-bracket-newline': ['error', 'consistent'],
-      '@stylistic/array-bracket-spacing': ['error', 'never'],
       'array-callback-return': [
         'error',
         {
           allowImplicit: true,
         },
       ],
-      '@stylistic/array-element-newline': ['error', 'consistent'],
-      '@stylistic/arrow-parens': ['error', 'always'],
-      '@stylistic/arrow-spacing': [
-        'error',
-        {
-          after: true,
-          before: true,
-        },
-      ],
       'block-scoped-var': 'error',
-      '@stylistic/block-spacing': ['error', 'always'],
-      '@stylistic/brace-style': [
-        'error',
-        '1tbs',
-        {
-          allowSingleLine: true,
-        },
-      ],
       camelcase: [
         'error',
         {
@@ -98,36 +77,7 @@ const recommended: Linter.Config[] = [
           properties: 'never',
         },
       ],
-      'capitalized-comments': [
-        'warn',
-        'always',
-        {
-          ignoreConsecutiveComments: true,
-          ignoreInlineComments: true,
-        },
-      ],
-      '@stylistic/comma-dangle': ['error', 'never'],
-      '@stylistic/comma-spacing': [
-        'error',
-        {
-          after: true,
-          before: false,
-        },
-      ],
-      '@stylistic/comma-style': ['error', 'last'],
-      '@stylistic/computed-property-spacing': [
-        'error',
-        'never',
-        {
-          enforceForClassMembers: true,
-        },
-      ],
-      'consistent-return': [
-        'error',
-        {
-          treatUndefinedAsUnspecified: true,
-        },
-      ],
+      'consistent-return': 'error',
       'constructor-super': 'error',
       curly: ['error', 'multi-line'],
       'default-case': [
@@ -138,14 +88,12 @@ const recommended: Linter.Config[] = [
       ],
       'default-case-last': 'error',
       'default-param-last': 'error',
-      '@stylistic/dot-location': ['error', 'property'],
       'dot-notation': [
         'error',
         {
           allowKeywords: true,
         },
       ],
-      '@stylistic/eol-last': 'error',
       eqeqeq: [
         'error',
         'always',
@@ -154,22 +102,12 @@ const recommended: Linter.Config[] = [
         },
       ],
       'for-direction': 'error',
-      '@stylistic/function-call-spacing': ['error', 'never'],
       'func-names': 'warn',
       'func-style': [
         'warn',
         'declaration',
         {
           allowArrowFunctions: true,
-        },
-      ],
-      '@stylistic/function-call-argument-newline': ['error', 'consistent'],
-      '@stylistic/function-paren-newline': ['error', 'consistent'],
-      '@stylistic/generator-star-spacing': [
-        'error',
-        {
-          after: true,
-          before: true,
         },
       ],
       'getter-return': [
@@ -237,105 +175,20 @@ const recommended: Linter.Config[] = [
           pathGroupsExcludedImportTypes: [],
         },
       ],
-      '@stylistic/indent': [
-        'error',
-        2,
-        {
-          ArrayExpression: 1,
-          CallExpression: {
-            arguments: 1,
-          },
-          flatTernaryExpressions: false,
-          FunctionDeclaration: {
-            body: 1,
-            parameters: 1,
-          },
-          FunctionExpression: {
-            body: 1,
-            parameters: 1,
-          },
-          ignoreComments: false,
-          ignoredNodes: [
-            'TemplateLiteral *',
-            'JSXElement',
-            'JSXElement > *',
-            'JSXAttribute',
-            'JSXIdentifier',
-            'JSXNamespacedName',
-            'JSXMemberExpression',
-            'JSXSpreadAttribute',
-            'JSXExpressionContainer',
-            'JSXOpeningElement',
-            'JSXClosingElement',
-            'JSXFragment',
-            'JSXOpeningFragment',
-            'JSXClosingFragment',
-            'JSXText',
-            'JSXEmptyExpression',
-            'JSXSpreadChild',
-          ],
-          ImportDeclaration: 1,
-          MemberExpression: 1,
-          ObjectExpression: 1,
-          offsetTernaryExpressions: true,
-          outerIIFEBody: 1,
-          SwitchCase: 1,
-          VariableDeclarator: 1,
-        },
-      ],
-      '@stylistic/jsx-quotes': ['error', 'prefer-double'],
-      '@stylistic/key-spacing': [
-        'error',
-        {
-          afterColon: true,
-          beforeColon: false,
-        },
-      ],
-      '@stylistic/keyword-spacing': [
-        'error',
-        {
-          after: true,
-          before: true,
-        },
-      ],
-      '@stylistic/line-comment-position': [
-        'warn',
-        {
-          applyDefaultIgnorePatterns: true,
-          position: 'above',
-        },
-      ],
-      '@stylistic/lines-between-class-members': [
-        'error',
-        'always',
-        {
-          exceptAfterSingleLine: true,
-        },
-      ],
       'max-classes-per-file': ['off', 1],
-      '@stylistic/max-len': [
-        'error',
-        {
-          code: 80,
-          ignoreStrings: true,
-          ignoreTemplateLiterals: true,
-        },
-      ],
       'max-params': [
         'warn',
         {
           max: 3,
         },
       ],
-      '@stylistic/multiline-ternary': ['error', 'always-multiline'],
       'new-cap': [
-        'error',
+        'warn',
         {
           capIsNew: false,
           newIsCap: true,
         },
       ],
-      '@stylistic/new-parens': 'error',
       'no-alert': 'warn',
       'no-array-constructor': 'error',
       'no-async-promise-executor': 'error',
@@ -345,7 +198,6 @@ const recommended: Linter.Config[] = [
       'no-class-assign': 'error',
       'no-compare-neg-zero': 'error',
       'no-cond-assign': ['error', 'except-parens'],
-      '@stylistic/no-confusing-arrow': 'error',
       'no-console': [
         'off',
         {
@@ -394,10 +246,7 @@ const recommended: Linter.Config[] = [
       'no-extra-bind': 'error',
       'no-extra-boolean-cast': 'error',
       'no-extra-label': 'error',
-      '@stylistic/no-extra-parens': ['error', 'functions'],
-      '@stylistic/no-extra-semi': 'error',
       'no-fallthrough': 'error',
-      '@stylistic/no-floating-decimal': 'error',
       'no-func-assign': 'error',
       'no-global-assign': 'error',
       'no-implicit-coercion': [
@@ -430,28 +279,8 @@ const recommended: Linter.Config[] = [
         },
       ],
       'no-misleading-character-class': 'error',
-      '@stylistic/no-mixed-operators': [
-        'error',
-        {
-          allowSamePrecedence: true,
-          groups: [
-            ['==', '!=', '===', '!==', '>', '>=', '<', '<='],
-            ['&&', '||'],
-            ['in', 'instanceof'],
-          ],
-        },
-      ],
-      '@stylistic/no-mixed-spaces-and-tabs': 'error',
       'no-multi-assign': 'error',
-      '@stylistic/no-multi-spaces': 'error',
       'no-multi-str': 'error',
-      '@stylistic/no-multiple-empty-lines': [
-        'error',
-        {
-          max: 1,
-          maxEOF: 0,
-        },
-      ],
       'no-negated-condition': 'off',
       'no-nested-ternary': 'error',
       'no-new': 'error',
@@ -517,11 +346,9 @@ const recommended: Linter.Config[] = [
       ],
       'no-shadow-restricted-names': 'error',
       'no-sparse-arrays': 'error',
-      '@stylistic/no-tabs': 'error',
       'no-template-curly-in-string': 'error',
       'no-this-before-super': 'error',
       'no-throw-literal': 'error',
-      '@stylistic/no-trailing-spaces': 'error',
       'no-undef': 'error',
       'no-undef-init': 'error',
       'no-underscore-dangle': 'error',
@@ -573,7 +400,6 @@ const recommended: Linter.Config[] = [
       'no-useless-return': 'error',
       'no-var': 'error',
       'no-void': 'error',
-      '@stylistic/no-whitespace-before-property': 'error',
       'no-with': 'error',
       'node/callback-return': 'off',
       'node/exports-style': [
@@ -612,20 +438,6 @@ const recommended: Linter.Config[] = [
       'node/prefer-promises/fs': 'warn',
       'node/process-exit-as-throw': 'error',
       'node/hashbang': 'error',
-      '@stylistic/object-curly-newline': [
-        'error',
-        {
-          consistent: true,
-          multiline: true,
-        },
-      ],
-      '@stylistic/object-curly-spacing': ['error', 'never'],
-      '@stylistic/object-property-newline': [
-        'error',
-        {
-          allowAllPropertiesOnSameLine: true,
-        },
-      ],
       'object-shorthand': [
         'error',
         'always',
@@ -636,90 +448,6 @@ const recommended: Linter.Config[] = [
       ],
       'one-var': ['error', 'never'],
       'operator-assignment': ['error', 'always'],
-      '@stylistic/operator-linebreak': [
-        'error',
-        'after',
-        {
-          overrides: {
-            ':': 'before',
-            '?': 'before',
-            '|>': 'before',
-          },
-        },
-      ],
-      '@stylistic/padded-blocks': [
-        'error',
-        {
-          blocks: 'never',
-          classes: 'never',
-          switches: 'never',
-        },
-      ],
-      '@stylistic/padding-line-between-statements': [
-        'error',
-        // Always surround `if` statements with a blank line. The first
-        // statement in a block is naturally exempt (there is no preceding
-        // statement to pad against), and the `if`->`return` exception below
-        // keeps an early return tight against its guard.
-        {
-          blankLine: 'always',
-          next: 'if',
-          prev: '*',
-        },
-        {
-          blankLine: 'always',
-          next: '*',
-          prev: 'if',
-        },
-        {
-          blankLine: 'always',
-          next: '*',
-          prev: ['const', 'let', 'var'],
-        },
-        {
-          blankLine: 'any',
-          next: ['const', 'let', 'var'],
-          prev: ['const', 'let', 'var'],
-        },
-        {
-          blankLine: 'always',
-          next: '*',
-          prev: ['multiline-const', 'multiline-let', 'multiline-var'],
-        },
-        {
-          blankLine: 'always',
-          next: 'return',
-          prev: '*',
-        },
-        {
-          blankLine: 'always',
-          next: 'return',
-          prev: 'block-like',
-        },
-        {
-          blankLine: 'always',
-          next: ['case', 'default'],
-          prev: ['break', 'return'],
-        },
-        {
-          blankLine: 'always',
-          next: '*',
-          prev: ['function', 'class', 'multiline-block-like'],
-        },
-        {
-          blankLine: 'any',
-          next: ['cjs-import'],
-          prev: ['cjs-import'],
-        },
-        // Keep an early return tight against its guard: an `if` followed
-        // directly by `return` needs no blank line. Listed last so it wins
-        // over the block-like/multiline-block-like -> return rules above.
-        {
-          blankLine: 'any',
-          next: 'return',
-          prev: 'if',
-        },
-      ],
       'prefer-arrow-callback': [
         'off',
         {
@@ -732,22 +460,6 @@ const recommended: Linter.Config[] = [
         {
           destructuring: 'all',
           ignoreReadBeforeAssign: true,
-        },
-      ],
-      'prefer-destructuring': [
-        'warn',
-        {
-          AssignmentExpression: {
-            array: false,
-            object: false,
-          },
-          VariableDeclarator: {
-            array: true,
-            object: true,
-          },
-        },
-        {
-          enforceForRenamedProperties: false,
         },
       ],
       'prefer-exponentiation-operator': 'error',
@@ -766,57 +478,11 @@ const recommended: Linter.Config[] = [
       'promise/no-return-wrap': 'error',
       'promise/param-names': 'error',
       'promise/valid-params': 'warn',
-      '@stylistic/quote-props': ['error', 'as-needed'],
-      '@stylistic/quotes': [
-        'error',
-        'single',
-        {
-          allowTemplateLiterals: 'never',
-          avoidEscape: true,
-        },
-      ],
       radix: 'error',
       'require-atomic-updates': 'off',
       'require-await': 'error',
       'require-yield': 'error',
-      '@stylistic/rest-spread-spacing': ['error', 'never'],
-      '@stylistic/semi': ['error', 'never'],
-      '@stylistic/semi-spacing': [
-        'error',
-        {
-          after: true,
-          before: false,
-        },
-      ],
-      '@stylistic/space-before-blocks': ['error', 'always'],
-      '@stylistic/space-before-function-paren': ['error', 'always'],
-      '@stylistic/space-in-parens': ['error', 'never'],
-      '@stylistic/space-infix-ops': 'error',
-      '@stylistic/space-unary-ops': [
-        'error',
-        {
-          nonwords: false,
-          words: true,
-        },
-      ],
-      '@stylistic/spaced-comment': [
-        'error',
-        'always',
-        {
-          block: {
-            balanced: true,
-            exceptions: ['-', '+'],
-            markers: ['-', '+', '?', '!'],
-          },
-          line: {
-            exceptions: ['-', '+'],
-            markers: ['-', '+', '?', '!', '/'],
-          },
-        },
-      ],
       'symbol-description': 'error',
-      '@stylistic/template-curly-spacing': ['error', 'never'],
-      '@stylistic/template-tag-spacing': ['error', 'never'],
       'unicode-bom': ['error', 'never'],
       'use-isnan': [
         'error',
@@ -832,14 +498,6 @@ const recommended: Linter.Config[] = [
         },
       ],
       'vars-on-top': 'error',
-      '@stylistic/wrap-iife': [
-        'error',
-        'any',
-        {
-          functionPrototypeMethods: true,
-        },
-      ],
-      '@stylistic/yield-star-spacing': ['error', 'both'],
       yoda: ['error', 'never'],
     },
   },
