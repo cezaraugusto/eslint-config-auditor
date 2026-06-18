@@ -125,19 +125,19 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.6.0",
-    "typescript-eslint": "^8.61.0"
+    "typescript-eslint": "^8.61.1"
   },
   "peerDependencies": {
     "eslint": ">=10"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.0",
-    "@rslib/core": "^0.22.1",
+    "@rslib/core": "^0.23.0",
     "@types/node": "^25.9.3",
     "eslint": "^10.5.0",
     "jest": "^30.4.2",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.9"
   },
   "packageManager": "pnpm@9.9.0",
   "bugs": "https://github.com/cezaraugusto/eslint-config-auditor/issues",
