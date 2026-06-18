@@ -1,5 +1,4 @@
 // MIT license. Cezar Augusto <boss@cezaraugusto.net>.
-import stylistic from '@stylistic/eslint-plugin';
 import type { Linter } from 'eslint';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import nodePlugin from 'eslint-plugin-n';
@@ -10,7 +9,6 @@ const finest: Linter.Config[] = [
   {
     name: 'auditor/finest',
     plugins: {
-      '@stylistic': stylistic,
       import: importPlugin,
       'jsx-a11y': jsxA11yPlugin,
       node: nodePlugin,
@@ -36,12 +34,6 @@ const finest: Linter.Config[] = [
       ],
       'max-nested-callbacks': ['warn', 6],
       'max-params': ['warn', 3],
-      '@stylistic/max-statements-per-line': [
-        'warn',
-        {
-          max: 1,
-        },
-      ],
       'no-await-in-loop': 'warn',
       'no-console': [
         'off',
@@ -56,7 +48,6 @@ const finest: Linter.Config[] = [
       'node/prefer-promises/dns': 'warn',
       'node/prefer-promises/fs': 'warn',
       'promise/prefer-await-to-callbacks': 'warn',
-      'promise/prefer-await-to-then': 'warn',
       'prefer-arrow-callback': [
         'warn',
         {
@@ -69,7 +60,6 @@ const finest: Linter.Config[] = [
       'import/no-relative-parent-imports': 'warn',
       'node/no-unsupported-features/node-builtins': 'warn',
       'no-duplicate-imports': 'warn',
-      'import/exports-last': 'error',
       'node/no-callback-literal': 'error',
       'jsx-a11y/aria-role': 'error',
       'jsx-a11y/alt-text': 'error',

@@ -5,7 +5,7 @@
     "url": "git+https://github.com/cezaraugusto/eslint-config-auditor.git"
   },
   "name": "eslint-config-auditor",
-  "version": "2.0.1",
+  "version": "2.3.0",
   "description": "Shareable ESLint flat config to help you write clear, efficient JavaScript code.",
   "homepage": "https://www.npmjs.com/package/eslint-config-auditor",
   "type": "module",
@@ -29,6 +29,16 @@
       "types": "./dist/jest.d.ts",
       "import": "./dist/jest.js",
       "require": "./dist/jest.cjs"
+    },
+    "./vitest": {
+      "types": "./dist/vitest.d.ts",
+      "import": "./dist/vitest.js",
+      "require": "./dist/vitest.cjs"
+    },
+    "./stylistic": {
+      "types": "./dist/stylistic.d.ts",
+      "import": "./dist/stylistic.js",
+      "require": "./dist/stylistic.cjs"
     },
     "./react": {
       "types": "./dist/react.d.ts",
@@ -106,6 +116,7 @@
   ],
   "dependencies": {
     "@stylistic/eslint-plugin": "^5.10.0",
+    "@vitest/eslint-plugin": "^1.6.20",
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-import-x": "^4.16.2",
     "eslint-plugin-jest": "^29.15.2",
@@ -129,5 +140,6 @@
     "typescript": "^6.0.3",
     "vitest": "^4.1.8"
   },
-  "packageManager": "pnpm@9.9.0"
+  "packageManager": "pnpm@9.9.0",
+  "bugs": "https://github.com/cezaraugusto/eslint-config-auditor/issues"
 }
