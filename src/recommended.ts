@@ -305,13 +305,6 @@ const recommended: Linter.Config[] = [
           position: 'above',
         },
       ],
-      'lines-around-directive': [
-        'error',
-        {
-          after: 'always',
-          before: 'always',
-        },
-      ],
       '@stylistic/lines-between-class-members': [
         'error',
         'always',
@@ -463,8 +456,8 @@ const recommended: Linter.Config[] = [
       'no-nested-ternary': 'error',
       'no-new': 'error',
       'no-new-func': 'error',
-      'no-new-object': 'error',
-      'no-new-symbol': 'error',
+      'no-object-constructor': 'error',
+      'no-new-native-nonconstructor': 'error',
       'no-new-wrappers': 'error',
       'no-obj-calls': 'error',
       'no-octal': 'error',
@@ -493,7 +486,6 @@ const recommended: Linter.Config[] = [
         },
       ],
       'no-return-assign': ['error', 'except-parens'],
-      'no-return-await': 'error',
       'no-script-url': 'error',
       'no-self-assign': [
         'error',

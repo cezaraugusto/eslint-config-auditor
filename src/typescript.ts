@@ -28,7 +28,15 @@ const typescript: Linter.Config[] = [
       import: importPlugin,
     },
     settings: importPlugin.flatConfigs.typescript.settings,
-    rules: importPlugin.flatConfigs.typescript.rules,
+    // eslint-plugin-import-x exposes these rules under its own `import-x/`
+    // namespace, but auditor registers the plugin as `import`. Remap so the
+    // rule ids match the registered namespace (otherwise `import-x/named`
+    // dangles against an unregistered plugin).
+    rules: Object.fromEntries(
+      Object.entries(importPlugin.flatConfigs.typescript.rules ?? {}).map(
+        ([id, value]) => [id.replace(/^import-x\//, 'import/'), value],
+      ),
+    ) as Linter.RulesRecord,
   },
   {
     name: 'auditor/typescript',
