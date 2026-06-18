@@ -5,7 +5,7 @@
     "url": "git+https://github.com/cezaraugusto/eslint-config-auditor.git"
   },
   "name": "eslint-config-auditor",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Shareable ESLint flat config to help you write clear, efficient JavaScript code.",
   "homepage": "https://www.npmjs.com/package/eslint-config-auditor",
   "type": "module",
