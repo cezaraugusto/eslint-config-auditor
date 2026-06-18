@@ -34,7 +34,6 @@ const react: Linter.Config[] = [
       },
     },
     rules: {
-      'jsx-a11y/accessible-emoji': 'error',
       'jsx-a11y/alt-text': 'error',
       'jsx-a11y/anchor-has-content': 'error',
       'jsx-a11y/anchor-is-valid': [
@@ -102,7 +101,6 @@ const react: Linter.Config[] = [
           labelComponents: [],
         },
       ],
-      'jsx-a11y/label-has-for': 'off',
       'jsx-a11y/lang': 'error',
       'jsx-a11y/media-has-caption': 'error',
       'jsx-a11y/mouse-events-have-key-events': 'error',
@@ -174,7 +172,6 @@ const react: Linter.Config[] = [
           tags: [],
         },
       ],
-      'jsx-a11y/no-onchange': 'off',
       'jsx-a11y/no-redundant-roles': 'error',
       'jsx-a11y/no-static-element-interactions': [
         'error',
