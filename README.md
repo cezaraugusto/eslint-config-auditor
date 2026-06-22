@@ -11,7 +11,7 @@
 
 Auditor uses sane defaults focused on code readability. The Auditor's philosophy is that good code means easy to understand code.
 
-Along with its own rules, Auditor by default includes battle-tested rules from [`eslint-plugin-import-x`](https://github.com/un-ts/eslint-plugin-import-x), [`eslint-plugin-promise`](https://github.com/eslint-community/eslint-plugin-promise), and [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n). Both on browser and Node.js, **Auditor gives you the confidence you need to write efficient JavaScript code**.
+Along with its own rules, Auditor by default includes widely-used rules from [`eslint-plugin-import-x`](https://github.com/un-ts/eslint-plugin-import-x), [`eslint-plugin-promise`](https://github.com/eslint-community/eslint-plugin-promise), and [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n). Auditor lints both browser and Node.js code.
 
 Besides linting standard JavaScript code gracefully, Auditor also has first-class support for React, Jest, and TypeScript. See [rules](#rules) about usage.
 
