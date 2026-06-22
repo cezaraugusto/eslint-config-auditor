@@ -23,7 +23,7 @@ export {
 };
 
 // Equivalent of the legacy root config: extends "recommended" + "finest".
-// Formatting/stylistic rules are intentionally NOT included here , opt into
+// Formatting/stylistic rules are intentionally NOT included here: opt into
 // `eslint-config-auditor/stylistic` if you want ESLint to own formatting too.
 const auditor: Linter.Config[] = [...recommended, ...finest];
 
