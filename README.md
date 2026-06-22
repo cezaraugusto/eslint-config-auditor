@@ -62,13 +62,13 @@ export default [...recommended, ...finest];
 
 ### Formatting (opt-in)
 
-Formatting/stylistic rules are **not** part of the default config , most projects
+Formatting/stylistic rules are **not** part of the default config; most projects
 format with Biome or Prettier, and duplicating that in ESLint just creates noise
 and conflicts. Opt in with `eslint-config-auditor/stylistic` only if you want
 ESLint to own formatting too:
 
 ```js
-// eslint.config.js , quality rules + ESLint-owned formatting
+// eslint.config.js: quality rules + ESLint-owned formatting
 import auditor from 'eslint-config-auditor';
 import stylistic from 'eslint-config-auditor/stylistic';
 
@@ -132,7 +132,7 @@ export default [
 Uses [`eslint-plugin-react`](https://www.npmjs.com/package/eslint-plugin-react), [`eslint-plugin-react-hooks`](https://www.npmjs.com/package/eslint-plugin-react-hooks), and [`eslint-plugin-jsx-a11y`](https://www.npmjs.com/package/eslint-plugin-jsx-a11y) (already included).
 
 > [!IMPORTANT]
-> **The `react` config is experimental on ESLint 10.** `eslint-plugin-react` (≤ 7.37.5, the latest release) calls `context.getFilename()`/`context.getScope()`, which ESLint 10 removed, so several of its rules throw at lint time. The `react` export will start working again once `eslint-plugin-react` ships an ESLint 10 compatible release , no change to this package will be required. Every other config (`recommended`, `finest`, `jest`, `typescript`) works on ESLint 10 today.
+> **The `react` config is experimental on ESLint 10.** `eslint-plugin-react` (≤ 7.37.5, the latest release) calls `context.getFilename()`/`context.getScope()`, which ESLint 10 removed, so several of its rules throw at lint time. The `react` export will start working again once `eslint-plugin-react` ships an ESLint 10 compatible release; no change to this package will be required. Every other config (`recommended`, `finest`, `jest`, `typescript`) works on ESLint 10 today.
 
 ```js
 // eslint.config.js

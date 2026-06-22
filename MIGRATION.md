@@ -17,7 +17,7 @@ was also bumped to current majors.
 
 | Package | 1.0.0 | 2.0.0 |
 | --- | --- | --- |
-| `@stylistic/eslint-plugin` | , | `^5.10.0` (new) |
+| `@stylistic/eslint-plugin` | n/a | `^5.10.0` (new) |
 | `eslint-plugin-import` → `eslint-plugin-import-x` | `^2.31.0` | `^4.16.2` |
 | `eslint-plugin-jest` | `^28.11.0` | `^29.15.2` |
 | `eslint-plugin-n` | `^17.17.0` | `^18.1.0` |
@@ -78,7 +78,7 @@ Two `@stylistic` option deprecations carried over from core were also corrected
 
 ## Consumer ergonomics added in 2.0.0
 
-- **`eslint-config-auditor/ts`** , a new preset equal to
+- **`eslint-config-auditor/ts`**: a new preset equal to
   `recommended` + `finest` + `typescript`, so TypeScript projects need a single
   import. (`...auditor` alone never linted `.ts`/`.tsx`; the base config only
   attaches to JavaScript extensions.)
@@ -97,7 +97,7 @@ See [CONSUMING.md](./CONSUMING.md) for per-project-type setup recipes.
 `context.getFilename()`/`context.getScope()`, which ESLint 10 removed, so
 several of its rules throw at lint time. The `react` export is therefore
 **experimental** on ESLint 10 and will resume working once `eslint-plugin-react`
-publishes an ESLint 10 compatible release , no change to this package will be
+publishes an ESLint 10 compatible release; no change to this package will be
 required. All other configs work on ESLint 10. (On ESLint 9 the `react` config
 still works, but this package's peer range now starts at `>=10`.)
 

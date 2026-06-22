@@ -6,7 +6,7 @@ config file (`eslint.config.js`, `.mjs`, or `.cjs`).
 ## Prerequisites
 
 - **ESLint `>=10`.** Auditor's peer range starts at 10. Bump first:
-  `npm i -D eslint@^10` (and remove any standalone plugin packages , Auditor
+  `npm i -D eslint@^10` (and remove any standalone plugin packages; Auditor
   bundles them).
 - **Node `^20.19.0 || ^22.13.0 || >=24`.** Update CI runners accordingly.
 - Run ESLint from the **repo root** so type-aware linting resolves tsconfig and
@@ -34,7 +34,7 @@ import ts from 'eslint-config-auditor/ts'
 export default ts // recommended + finest + typescript, one import
 ```
 
-`...auditor` alone does **not** lint `.ts`/`.tsx` files , the base config only
+`...auditor` alone does **not** lint `.ts`/`.tsx` files; the base config only
 attaches to JavaScript extensions. Use the `ts` preset (or spread
 `[...auditor, ...typescript]`) so TypeScript files are matched and type-aware
 rules run. A `tsconfig.json` at the repo root is required.
@@ -42,11 +42,11 @@ rules run. A `tsconfig.json` at the repo root is required.
 ### React (component libraries / SPAs)
 
 > The dedicated `react` config (`eslint-plugin-react`) does **not** work on
-> ESLint 10 yet , several of its rules call APIs ESLint 10 removed. Until
+> ESLint 10 yet; several of its rules call APIs ESLint 10 removed. Until
 > upstream ships a fix, use the base config only:
 
 ```js
-// eslint.config.js , TS + React, interim
+// eslint.config.js: TS + React, interim
 import ts from 'eslint-config-auditor/ts'
 
 export default ts
@@ -67,7 +67,7 @@ import auditor from 'eslint-config-auditor'
 export default [...auditor]
 ```
 
-(Skip the `react` config , same ESLint 10 limitation as above.)
+(Skip the `react` config; same ESLint 10 limitation as above.)
 
 ### Jest projects
 
@@ -81,7 +81,7 @@ export default [
 ]
 ```
 
-Vitest projects don't need a special config , just use `auditor`/`ts`.
+Vitest projects don't need a special config; just use `auditor`/`ts`.
 
 ### Repos that already use Biome
 
@@ -131,4 +131,4 @@ export default [
 | `eslint-config-auditor/finest` | strict layer (size caps, complexity) |
 | `eslint-config-auditor/typescript` | TypeScript parser + rules (`.ts`/`.tsx`) |
 | `eslint-config-auditor/jest` | Jest test rules |
-| `eslint-config-auditor/react` | React rules , **experimental on ESLint 10** |
+| `eslint-config-auditor/react` | React rules (**experimental on ESLint 10**) |
