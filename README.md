@@ -4,10 +4,12 @@
 [npm-downloads-url]: https://www.npmjs.com/package/eslint-config-auditor
 [action-image]: https://github.com/cezaraugusto/eslint-config-auditor/actions/workflows/ci.yml/badge.svg?branch=main
 [action-url]: https://github.com/cezaraugusto/eslint-config-auditor/actions
+[provenance-image]: https://img.shields.io/badge/provenance-verified-0971fe?logo=npm&logoColor=white
+[provenance-url]: https://www.npmjs.com/package/eslint-config-auditor
 
 > Shareable ESLint flat config to help you write clear, efficient JavaScript code.
 
-# eslint-config-auditor [![Version][npm-version-image]][npm-version-url] [![Downloads][npm-downloads-image]][npm-downloads-url] [![workflow][action-image]][action-url]
+# eslint-config-auditor [![Version][npm-version-image]][npm-version-url] [![Downloads][npm-downloads-image]][npm-downloads-url] [![workflow][action-image]][action-url] [![provenance][provenance-image]][provenance-url]
 
 Auditor uses sane defaults focused on code readability. The Auditor's philosophy is that good code means easy to understand code.
 
