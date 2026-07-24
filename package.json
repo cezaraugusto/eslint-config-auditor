@@ -5,7 +5,7 @@
     "url": "git+https://github.com/cezaraugusto/eslint-config-auditor.git"
   },
   "name": "eslint-config-auditor",
-  "version": "2.3.3",
+  "version": "3.0.0",
   "description": "Shareable ESLint flat config to help you write clear, efficient JavaScript code.",
   "homepage": "https://www.npmjs.com/package/eslint-config-auditor",
   "type": "module",
@@ -42,8 +42,11 @@
     },
     "./react": {
       "types": "./dist/react.d.ts",
-      "import": "./dist/react.js",
-      "require": "./dist/react.cjs"
+      "import": "./dist/react.js"
+    },
+    "./next": {
+      "types": "./dist/next.d.ts",
+      "import": "./dist/next.js"
     },
     "./typescript": {
       "types": "./dist/typescript.d.ts",
@@ -114,30 +117,30 @@
     "alternative"
   ],
   "dependencies": {
+    "@eslint-react/eslint-plugin": "^5.18.0",
+    "@next/eslint-plugin-next": "^16.2.11",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "@vitest/eslint-plugin": "^1.6.20",
+    "@vitest/eslint-plugin": "^1.6.24",
     "eslint-import-resolver-typescript": "^4.4.5",
-    "eslint-plugin-import-x": "^4.16.2",
-    "eslint-plugin-jest": "^29.15.2",
+    "eslint-plugin-import-x": "^4.17.1",
+    "eslint-plugin-jest": "^29.16.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-n": "^18.1.0",
+    "eslint-plugin-n": "^18.2.2",
     "eslint-plugin-promise": "^7.3.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "globals": "^17.6.0",
-    "typescript-eslint": "^8.61.1"
+    "globals": "^17.7.0",
+    "typescript-eslint": "^8.65.0"
   },
   "peerDependencies": {
     "eslint": ">=10"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.0",
-    "@rslib/core": "^0.23.0",
-    "@types/node": "^25.9.3",
-    "eslint": "^10.5.0",
+    "@biomejs/biome": "^2.5.5",
+    "@rslib/core": "^0.23.2",
+    "@types/node": "^26.1.1",
+    "eslint": "^10.8.0",
     "jest": "^30.4.2",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.10"
   },
   "packageManager": "pnpm@9.9.0",
   "bugs": "https://github.com/cezaraugusto/eslint-config-auditor/issues",
